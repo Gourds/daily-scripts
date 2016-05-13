@@ -1,0 +1,35 @@
+#---
+##version 1.0：use command ifconfig
+#- name: command
+#  hosts: all
+#  task:
+#    - name:
+#      shell:  "ifconfig eth0 | awk '/inet addr:/{print $2}' |awk -F: '{print $2}'"
+#      register: original_ip
+#   - name: print original_ip
+#     debug: msg="The ip address is {{ original_ip }}"
+#   - set_fact: original_ip={{ original_ip.stdout }}
+#   - name: command to print inetrc's ip
+#     shell: >
+#     ifconfig eth0 | awk '/inet addr:/{print $2}' |awk -F: '{print $2}' | sed -e "s/\./,/g"
+#     register: edit_ip
+#   - set_fact: edit_ip={{ edit_ip.stdout }}
+#   - name: print edit_ip
+#     debug: msg="The ip address is {{ edit_ip }}"
+---
+#Version 1.1：use modle setup(=gather_facts)
+- name: print local facts
+  hosts: all
+  gather_facts: True
+  vars:
+    original_ip: '{{ ansible_default_ipv4.address }}'
+  tasks:
+    - name: use father_facts get ip
+      debug: msg="The ipaddress is {{ ansible_default_ipv4.address }}"
+    - name: command to get inetrc's ip
+      shell: >
+        echo '{{ ansible_default_ipv4.address }}' |sed -e "s/\./,/g"
+      register: edit_ip
+    - set_fact: edit_ip={{ edit_ip.stdout }}
+    - name: print edit_ip
+      debug: msg="The ip address is {{ edit_ip }}"
