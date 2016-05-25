@@ -1,0 +1,30 @@
+---
+#- name: Put on the ejabberd conf files
+#  template: src={{item.src}} dest={{item.dest}} owner={{item.owner}} group={{item.group}} mode={{item.mode}}
+#  with_items:
+#  - { src: 'authorized_keys', dest: '/home/easemob/.ssh/authorized_keys', mode: 644, owner: easemob, group: easemob }
+#  - { src: 'authorized_keys', dest: '/root/.ssh/authorized_keys', mode: 644, owner: root, group: root }
+#  - { src: 'id_rsa.pub', dest: '/home/easemob/.ssh/id_rsa.pub', mode: 644, owner: easemob, group: easemob }
+#  - { src: 'id_rsa.pub', dest: '/root/.ssh/id_rsa.pub', mode: 644, owner: root, group: root }
+#  - { src: 'id_rsa', dest: '/home/easemob/.ssh/id_rsa', mode: 600, owner: easemob, group: easemob }
+#  - { src: 'id_rsa', dest: '/root/.ssh/id_rsa', mode: 600, owner: root, group: root }
+#  - { src: 'profile', dest: '/etc/profile', mode: 644, owner: root, group: root }
+
+
+
+
+#- name: creat /usr/local/share/git-core/templates
+#  command: mkdir /home/easemob/share/git-core/templates -p
+
+
+#- name: chown /easemob/
+#  command: chown -R easemob:easemob /home/easemob/
+  
+#- name: chmod /usr/local/share/git-core/templatesi
+#  command: chmod -R 755 /home/easemob/share/git-core/templates
+
+
+- name: install soft devel package
+  yum: name={{item}} state=latest
+  with_items: soft.packages
+

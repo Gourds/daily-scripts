@@ -1,0 +1,3 @@
+---
+- name: restart tomcat
+  monit: name=tomcat state=restarted

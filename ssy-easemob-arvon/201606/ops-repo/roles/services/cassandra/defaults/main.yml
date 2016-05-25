@@ -1,0 +1,8 @@
+cassandra:
+  packages:
+  - easemob-cassandra
+  - numactl
+
+db_host:
+  hostname: "{{hostname}}"
+  port: 9160

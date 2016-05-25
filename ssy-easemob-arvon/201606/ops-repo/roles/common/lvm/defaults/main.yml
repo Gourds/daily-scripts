@@ -1,0 +1,10 @@
+---
+lvm_pkgs:
+- lvm2
+
+is_more_disk: False
+lvm_create:
+- vg: "data"
+  pv: "/dev/xvdb"
+  lv: "apps"
+  mount_point: "/data"

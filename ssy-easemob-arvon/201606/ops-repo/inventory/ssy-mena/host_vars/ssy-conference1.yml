@@ -1,0 +1,6 @@
+#common
+hostname: ssy-conference1
+
+
+conference_host_hostname: "ssy-conference1"
+conference_host_port: "6996"

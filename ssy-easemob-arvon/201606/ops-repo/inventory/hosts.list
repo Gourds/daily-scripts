@@ -1,0 +1,30 @@
+ssy-ops 192.168.100.2 ops
+ssy-web 192.168.100.3 redis,push,web
+ssy-app 192.168.100.4 cassandra,mysql,rest,thrift,ejabberd
+
+inventory:
+  name: ssy
+  hosts:
+    - name: ssy-ops
+        ip: 192.168.100.2
+        group:
+          - ops
+        cname:
+    - name: ssy-web
+        ip: 192.168.100.3
+        group:
+          - redis
+          - push
+          - web
+        cname:
+          - ssy-redis
+    - name: ssy-app
+        ip: 192.168.100.3
+        group:
+          - cassandra
+          - mysql
+          - rest
+          - thrift
+          - ejabberd
+        cname:
+          - ssy-mysql1

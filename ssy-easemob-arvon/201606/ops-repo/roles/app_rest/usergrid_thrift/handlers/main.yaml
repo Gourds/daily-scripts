@@ -1,0 +1,3 @@
+---
+- name: restart usergrid-thrift
+  command: monit restart usergrid-thrift

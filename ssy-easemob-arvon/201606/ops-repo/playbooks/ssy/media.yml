@@ -1,0 +1,8 @@
+---
+- hosts: media
+  user: easemob
+  sudo: yes
+  gather_facts: yes
+  roles:
+    - monitor/monit_c7
+    - applications/media

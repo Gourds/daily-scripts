@@ -1,0 +1,5 @@
+[easemob-app]
+name=easemob app repository
+baseurl=http://{{ yum_server }}/yum/easemob/$releasever/applications/
+gpgcheck=0
+enabled=1

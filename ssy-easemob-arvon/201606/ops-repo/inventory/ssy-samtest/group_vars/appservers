@@ -1,0 +1,10 @@
+usergrid_install:
+  packages:
+    - easemob-usergrid
+
+usergrid_host:
+  hostname: "{{ hostname }}"
+  port: 8080
+  opts:
+    Xms: 2g
+    Xmx: 4g

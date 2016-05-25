@@ -1,0 +1,11 @@
+---
+- hosts: ssy-ops
+  user: root
+  sudo: yes
+  gather_facts: yes
+  roles:
+  #  - common/lvm
+  #  - common/base
+    - common/hosts
+  #  - monitor/monit
+  #  - ops/yum

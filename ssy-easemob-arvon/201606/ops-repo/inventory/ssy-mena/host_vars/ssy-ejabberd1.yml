@@ -1,0 +1,12 @@
+#common
+hostname: ssy-ejabberd1
+ipaddr: "47.88.194.207"
+
+#ejabberd
+ejabberd_host:
+  ipaddr: "47.88.194.207"
+  inetrc_ip: "47,88,194,207"
+  hostname: "ssy-ejabberd1"
+  machineid: "1"
+  log_type: "file"
+  node_role: conn

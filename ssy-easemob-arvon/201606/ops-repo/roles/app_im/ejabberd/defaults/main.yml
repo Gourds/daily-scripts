@@ -1,0 +1,28 @@
+---
+ejabberd_install:
+  packages:
+  - easemob-ejabberd-ssy
+  - libyaml-devel
+ 
+ejabberd_conf:
+  odbc:
+    server: "127.0.0.1"
+    database: "ejabberd"
+    username: "ejabberd"
+    password: "ejabberd"
+  redis:
+    chatgroup: "127.0.0.1"
+    rest: "127.0.0.1"
+    message: "127.0.0.1"
+    privacy_cache: "127.0.0.1"
+    roster_cache: "127.0.0.1"
+  kafka:
+    message_log: "127.0.0.1"
+  
+ejabberd_host:
+  ipaddr: "127.0.0.1"
+  inetrc_ip: "127,0,0,1"
+  hostname: "{{hostname}}"
+  machineid: "1"
+  log_type: "file"
+  node_role: db

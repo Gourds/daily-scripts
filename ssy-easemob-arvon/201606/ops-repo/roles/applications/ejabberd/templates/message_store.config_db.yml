@@ -1,0 +1,52 @@
+[
+ {message_store, [
+                  {redis, []},
+                  {odbc_type, mysql},
+                  {odbc_server,<<"{{ejabberd_conf.odbc.server}}">>},
+                  {odbc_database,<<"{{ejabberd_conf.odbc.database}}">>},
+                  {odbc_username,<<"{{ejabberd_conf.odbc.username}}">>},
+                  {odbc_password,<<"{{ejabberd_conf.odbc.password}}">>},
+                  {odbc_port,{{ejabberd_conf.odbc.port}}},
+                  {odbc_pool_size, 1},
+                  %% start interval in seconds.
+                  {odbc_start_interval, 30},
+                  {odbc_shards,
+                   [{32,
+                     [{server, <<"{{ejabberd_conf.odbc.server}}">>},
+                      {start_interval, 30},
+                      {port, 3306},
+                      {database, <<"{{ejabberd_conf.odbc.database}}">>},
+                      {username, <<"{{ejabberd_conf.odbc.username}}">>},
+                      {password, <<"{{ejabberd_conf.odbc.password}}">>},
+                      {pool_size, 1}]},
+                    {0, [{server, <<"{{ejabberd_conf.odbc.server}}">>}]}]},
+                  {max_fsm_queue, 1000},
+                  {odbc_keepalive_interval, 90},
+                  {store, [{pool_size, 1}]},
+                  {offline, [{pool_size, 1}]},
+                  {log_redis, [
+                               {redis_topic, "ejabberd:chat:messages"},
+                               {redis_offline_topic, "ejabberd:chat:offlines"},
+                               {pool_size, 1}
+                              ]},
+                  {log_kafka, [
+                               {kafka_sendmsg_topic, <<"ejabberd-chat-messages">>},
+                               {kafka_recvmsg_topic, <<"ejabberd-chat-recvmsgs">>},
+                               {kafka_offline_topic, <<"ejabberd-chat-offlines">>},
+                               {kafka_status_topic, <<"ejabberd-status-change">>},
+                               {kafka_broker_host, "{{ejabberd_conf.kafka.message_log}}"},
+                               {kafka_broker_port, 9092},
+                               {kafka_per_partition_workers, 1},
+                               {kafka_pool_size, 1}
+                              ]},
+	{resource_expire_time, [
+                                 {<<"mobile">>, 604800000},
+                                 {<<"webim">>, 86400000},
+                                 {undefined, 86400000}
+                                ]}]}
+].
+
+%% Local Variables:
+%% mode:erlang
+%% coding: nil
+%% End:

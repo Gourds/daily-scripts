@@ -1,0 +1,21 @@
+#profile:
+#  service_name: push
+#  cluster_name: ssy
+#  package_name: easemob-push
+#  package_version: 1.3.1.FINAL
+
+springboot_package_url: "http://nexus.op.easemob.com/nexus/service/local/repositories/releases/content/com/easemob/usergrid/{{ profile.package_name }}/{{ profile.package_version }}/{{ profile.package_name }}-{{ profile.package_version }}.jar"
+
+
+Xms: 2g
+Xmx: 2g
+
+easemob_push_topic: '["ejabberd:chat:offlines", "ejabberd:chat:messages", "usergrid:apns:todo", "usergrid:gcm:todo"]'
+
+usergrid_redis_pool: 100
+
+metrics_persistence_cassandra_enable: "true"
+metrics_persistence_opentsdb_enable: "true"
+
+locale_lang: zh
+locale_region: CN

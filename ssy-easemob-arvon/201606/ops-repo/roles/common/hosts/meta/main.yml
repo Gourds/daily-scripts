@@ -1,0 +1,3 @@
+dependencies:
+#   - common/selinux
+   - common/easemob_ssh_root

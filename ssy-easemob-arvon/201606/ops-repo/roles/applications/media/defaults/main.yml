@@ -1,0 +1,12 @@
+---
+
+install:
+  packages:
+  - easemob-media-ssy
+  - cronolog
+  - libevent
+  - speex
+  - hiredis
+  - opus
+  - boost
+

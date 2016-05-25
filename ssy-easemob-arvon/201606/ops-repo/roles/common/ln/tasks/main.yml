@@ -1,0 +1,4 @@
+
+- name: create ln /data/apps   /home/easemob/apps
+  file: src=/data/apps dest=/home/easemob/apps owner=easemob group=easemob state=link
+

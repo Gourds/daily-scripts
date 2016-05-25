@@ -1,0 +1,6 @@
+#common
+hostname: ssy-db2
+
+# cassandra
+db_hostname: "ssy-db2"
+

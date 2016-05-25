@@ -1,0 +1,28 @@
+- name: Ensure directory exists
+  file: path={{ item }} state=directory owner=easemob group=easemob
+  with_items:
+    - /data/apps/config/easemob-{{ profile.service_name }}/
+    - /data/apps/config/usergrid/
+    - /data/apps/data/easemob-{{ profile.service_name }}/
+    - /data/apps/data/usergrid/
+    - /data/apps/log/easemob-{{ profile.service_name }}/
+    - /data/apps/log/usergrid/
+    - /data/apps/opt/easemob-{{ profile.service_name }}/
+    - /data/apps/opt/usergrid/
+    - /data/apps/var/easemob-{{ profile.service_name }}/
+    - /data/apps/var/usergrid/
+  tags:
+    - update_easemob-profile
+
+- name: Put on the easemob-rest conf files
+  template: src={{item.src}} dest={{item.dest}} owner=easemob group=easemob mode={{item.mode}} force=yes backup=yes
+  with_items:
+  - { src: 'logback.xml', dest: '/data/apps/config/easemob-{{ profile.service_name }}/logback.xml', mode: 755 }
+  - { src: 'profiles/application-{{ attribute_status }}.yaml', dest: '/data/apps/config/easemob-{{ profile.service_name }}/application-{{ profile.cluster_name }}.yaml', mode: 755}
+  tags:
+    - update_easemob-profile
+#- include: easemob-push.yaml
+#  when: is_easemob_push
+
+#- include: easemob-rest.yaml
+#  when: is_easemob_rest

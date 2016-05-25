@@ -1,0 +1,14 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+10.50.112.59 ssy-ops
+10.50.112.59 ssy-db1
+10.50.112.59 ssy-zk1
+10.50.112.59 ssy-kafka1
+10.50.112.59 ssy-redis1
+10.50.112.59 ssy-ejabberd1
+10.50.112.59 ssy-app1
+10.50.112.59 ssy-tools1
+10.50.112.59 ssy-thrift1
+10.50.112.59 ssy-web1
+10.50.112.59 ssy-mysql1

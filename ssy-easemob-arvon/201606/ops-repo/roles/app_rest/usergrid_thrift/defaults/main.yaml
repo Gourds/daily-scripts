@@ -1,0 +1,9 @@
+thrift_install:
+  packages:
+  - easemob-thrift
+
+thrift_host:
+  opts:
+    Xms: 8g
+    Xmx: 8g
+

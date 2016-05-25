@@ -1,0 +1,18 @@
+
+- name: Reseted superuser password
+  command: curl --user "superuser:{{ sysadmin_password }}" http://ssy-app1:8080/system/superuser/setup
+
+
+- name: Take a token to /tmp
+  command: curl -X POST -i -s -o /tmp/token "http://ssy-app1:8080/management/token" -d '{"grant_type":"password","username":"superuser","password":"{{ sysadmin_password }}"}'
+
+
+- name: cut of the token
+  raw: cat /tmp/token | grep access_token | cut -d '"' -f 4  
+#- name: cat token
+#  command: cat /tmp/token
+  register: token
+
+
+- debug: var=token
+ 

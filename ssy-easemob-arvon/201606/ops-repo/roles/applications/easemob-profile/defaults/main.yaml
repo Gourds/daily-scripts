@@ -1,0 +1,56 @@
+#profile:
+#  service_name: rest
+#  cluster_name: ssy
+#  port: 8080
+#  packages:
+#    - easemob-rest
+
+easemob_push_topic: '["ejabberd:chat:offlines", "ejabberd:chat:messages", "usergrid:apns:todo", "usergrid:gcm:todo", "ejabberd:chat:offlines:slow"]'
+easemob_push_vip_appkeys: '[]'
+
+usergrid_redis_pool: 100
+easemob_push_workerThread: 200
+easemob_push_threshold: 10
+easemob_push_bannedTime: 1800
+
+usergrid_lock_manager: zookeeper
+
+usergrid_publish_chat_message_topic: "im:rest:chat"
+usergrid_publish_groupchat_message_topic: "im:rest:groupchat"
+
+usergrid_publish_chat_message_batch_topic: "im:rest:batch:chat"
+usergrid_publish_groupchat_message_batch_topic: "im:rest:batch:groupchat"
+
+easemob_push_redis_ip: bj-redis1
+easemob_push_redis_port: 6379
+
+metrics_qeury_datasource: cassandra
+metrics_persistence_cassandra_enable: "true"
+metrics_persistence_opentsdb_enable: "true"
+
+usergrid_cassandra_url:
+usergrid_cassandra_ttl: "false"
+usergrid_cassandra_connections: 20
+usergrid_service_message_state_enable: "false"
+
+usergrid_regist_without_db: "false"
+usergrid_validate_from_db: "true"
+
+usergrid_chatmessages_host:
+
+logback_usergrid_log_name: usergrid
+
+# 1.3.2 add
+usergrid_superapp_deleteEntity_allowed: false
+
+usergrid_cassandra_url: "{{ easemob_zookeeper_url }}"
+cassandra_origin_connections: 30
+cassandra_origin_replication: 3
+cassandra_origin_flushSize: 2000
+cassandra_origin_maxWaitTimeWhenExhausted: 5000
+
+cassandra_message_url: "{{ easemob_storm_stormzk }}"
+cassandra_message_connections: 30
+cassandra_message_replication: 3
+cassandra_message_flushSize: 2000
+cassandra_message_maxWaitTimeWhenExhausted: 5000

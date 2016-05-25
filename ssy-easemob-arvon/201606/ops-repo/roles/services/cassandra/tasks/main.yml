@@ -1,0 +1,26 @@
+---
+- name: Install cassandra packages
+  yum: name={{item}} state=latest
+  with_items: cassandra.packages
+  
+- name: Add the Cassandra ENV
+  lineinfile: dest=/etc/profile line="CASSANDRA_INCLUDE="/data/apps/config/cassandra/cassandra-in.sh"" 
+
+- name: export Cassandra ENV
+  lineinfile: dest=/etc/profile line="export CASSANDRA_INCLUDE" 
+
+- name: Put on the cassandra conf files
+  template: src={{ item.src }} dest={{ item.dest }} owner=easemob group=easemob mode={{ item.mode }}
+  with_items:
+    - { src: data/apps/config/cassandra/cassandra.yaml, dest: /data/apps/config/cassandra/cassandra.yaml, mode: 640 }  
+    - { src: data/apps/config/monit/cassandra.mc, dest: /data/apps/config/monit/cassandra.mc, mode: 640 }  
+
+- name: reload monit
+  command:  /usr/bin/monit reload
+
+- name: stop app
+  monit: name=cassandra state=stopped
+
+- name: start app
+  monit: name=cassandra state=restarted
+

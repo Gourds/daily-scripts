@@ -1,0 +1,3 @@
+#http_proxy_server should be defined in the variable files when the host hasn't the public IP
+#http_proxy_server: ebs-ali-beijing-log:18888
+yum_server: yum.op.easemob.com

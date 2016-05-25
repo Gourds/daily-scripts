@@ -1,0 +1,21 @@
+#common
+hostname: ssy-media1
+
+
+media_host_public_ip: "172.17.200.235"
+media_host_private_ip: "172.17.200.235"
+media_host_hostname: "ssy-media1"
+media_host_server_id: "1"
+media_host_sender_buf_size_mb: "50"
+media_host_recver_buf_size_mb: "50"
+media_host_max_bandwidth_mb: "16"
+media_host_max_users: "10000"
+media_host_server_port: "1870"
+
+##isender_buf_size_mb 必选，发送缓冲区大小，一般为50
+##recver_buf_size_mb 必选，接收缓冲区大小，一般为50
+##max_bandwidth_mb 必选，公网最大带宽，单位MB，按带宽的80%设置，例如带宽100M设置此字段为80
+##max_users 必选，最大用户数；max_bandwidth_mb和max_users描述了服务器的最大资源能力，一般以带宽为主，所以max_users可以设置大一些，例如10000
+##
+
+

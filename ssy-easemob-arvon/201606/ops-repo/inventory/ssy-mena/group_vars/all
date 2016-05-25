@@ -1,0 +1,129 @@
+default_group: easemob
+default_user: easemob
+
+sysadmin_password: fddsaR15G256s   #modify superuser password
+monit_mailserver: "{{hostname}}"
+
+yum_server: ssy-ops
+yumrepo:
+  file: "ssy201604"
+  addr: "ssy-ops"
+
+#media
+media_redis_ip: "ssy-redis1"   #modify
+media_redis_port: "6379"
+
+#conference
+conference_redis_ip: "ssy-redis1"   #modify
+conference_redis_port: "6379"
+
+
+#msync&ejabberd
+#msync_user_server: "ssy-thrift1:9999,ssy-thrift2:9999"  #modify many servers
+msync_user_server: "ssy-thrift1:9999"  #modify
+erlang_cookies: "EASEMOBAAAAAAAAAAEBS"
+ejabberd_nodes_conn: "'ejabberd@ssy-ejabberd1'" #modify
+#ejabberd_nodes_conn: "'ejabberd@ssy-ejabberd2','ejabberd@ssy-ejabberd3'" #modify many servers
+ejabberd_conn_host: "ssy-ejabberd1"    #modify The last one
+
+#mysql
+ejabberd_conf:
+  odbc:
+    server: "ssy-mysql1"
+    database: "ejabberd"
+    username: "ejabberd"
+    password: "ejabberd"
+    port: "3306"
+
+
+#easemob-rest
+metrics_query_newschema: false
+#usergrid_cassandra_url: "ssy-db1:9160,ssy-db2:9160,ssy-db3:9160" #modify many servers
+usergrid_cassandra_url: "ssy-db1:9160" #modify
+#cassandra_message_urlsemob_zookeeper_url: "ssy-db1:9160,ssy-db2:9160,ssy-db3:9160"  #modifymany servers
+cassandra_message_urlsemob_zookeeper_url: "ssy-db1:9160"  #modify
+#easemob-rest 1.3.2 add
+usergrid_superapp_deleteEntity_allowed: "false"
+
+cassandra_limitDBAccessNum: "false"
+cassandra_origin_connections: 30
+cassandra_origin_replication: 3       #modify-canssanra单机时修改为1
+cassandra_origin_flushSize: 2000
+cassandra_origin_maxWaitTimeWhenExhausted: 5000
+cassandra_origin_maxDBAccessThreadNum: 400
+
+cassandra_message_url: "ssy-db1:9160"  #modify
+cassandra_message_connections: 30
+cassandra_message_replication: 3           #modify-canssanra单机时修改为1
+cassandra_message_flushSize: 2000
+cassandra_message_maxWaitTimeWhenExhausted: 5000
+cassandra_message_maxDBAccessThreadNum: 400
+
+tools_registuser_topic: user-regist
+tools_registuser_zkUrl: 'ssy-zk1:2181'  #modify
+easemob_zookeeper_url: "ssy-zk1:2181"  #modify
+#tools_registuser_zkUrl: 'ssy-zk1:2181,ssy-zk2:2181,ssy-zk3:2181'  #modify many servers
+#easemob_zookeeper_url: "ssy-zk1:2181,ssy-zk2:2181,ssy-zk3:2181"  #modify many servers
+
+tools_registuser_groupId: registUserConsumerGroup
+tools_registuser_autoOffsetReset: smallest
+tools_registuser_workThread: 20
+
+usergrid_bloomfilter_registeruser_uri: 'ssy-redis1:6379'  #modify
+## 1.3.2 end
+
+
+
+redis_slave_port: "6380"
+redis_master_port: "6379"
+#easemob_profile  #Below are need to be modified
+redis1_master: "ssy-redis1"
+redis2_master: "ssy-redis1"
+redis3_master: "ssy-redis1"
+redis4_master: "ssy-redis1"
+redis5_master: "ssy-redis1"
+redis6_master: "ssy-redis1"
+redis7_master: "ssy-redis1"
+redis8_master: "ssy-redis1"
+redis_rest_message: "ssy-redis1"
+redis_ejabberd_message: "ssy-redis1"
+redis_chatgroup: "ssy-redis1"
+cassandra_url: "ssy-db1"
+cassandra_seeds: "ssy-db1:9160"
+ejabberd_host: "ssy-ejabberd1"
+easemob_push: "ssy-redis1"
+easemob_redis: "ssy-redis1"
+easemob_user_status: "ssy-redis1"
+easemob_kafka: "ssy-kafka1:9092"
+easemob_zookeeper_url: "ssy-zk1:2181"
+easemob_storm_stormzk: "ssy-zk1"
+#easemob_kafka: "ssy-kafka1:9092,ssy-kafka2:9092"   #many servers
+#easemob_zookeeper_url: "ssy-zk1:2181,ssy-zk2:2181,ssy-zk3:2181"   #many servers
+#easemob_storm_stormzk: "ssy-zk1,ssy-zk2,ssy-zk3"  #many servers
+client_domain: ".lcc100.com"
+usergrid_url:
+  api_site: "api.ssy{{ client_domain }}"
+  console_site: "console.ssy{{ client_domain }}"
+
+
+
+
+#web       Below are need to be modified
+api_port: 80
+api_site: "api.ssy{{ client_domain }}"
+console_port: 80
+console_site: "console.ssy{{ client_domain }} "
+webim_port: 80
+webim_site: "webim.ssy{{ client_domain }}"
+imapi_port: 80
+imapi_site: "im.ssy{{ client_domain }}"
+sdkapi_port: 443
+sdkapi_site: "sdk.ssy{{ client_domain }}"
+app_orgname: easemob-demo
+app_appname: easemobchat
+
+
+http_proxy_server: ""
+usergrid_url:
+  rest_site: "im.ssy{{ client_domain }}"
+  console_site: "console.ssy{{ client_domain }}"

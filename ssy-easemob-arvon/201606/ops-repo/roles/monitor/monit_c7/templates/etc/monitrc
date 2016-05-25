@@ -1,0 +1,14 @@
+set daemon  120
+set logfile /data/apps/log/monit/monit.log
+#set mmonit http://easemob:aGQQqnWNt5x7VNuqUReq@10.0.1.10:1789/collector
+set httpd port 2812 and
+     use address {{hostname}}
+     allow localhost
+     allow 10.0.0.0/255.0.0.0
+     allow 172.0.0.0/255.0.0.0
+     allow admin:H863AgWRpo9nfzhoJdQw
+set mailserver {{monit_mailserver}}
+set alert monitor@easemob.com { resource }
+set mail-format { subject: [CRIT] $SERVICE $EVENT at $DATE }
+include /data/apps/config/monit/*
+include /etc/monit.d/*.mc

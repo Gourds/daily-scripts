@@ -1,0 +1,13 @@
+redis:
+  packages:
+    - easemob-redis
+    
+redis_master:
+  bind: 127.0.0.1
+  
+is_redis_slave: "False"
+redis_slave:
+  bind: 127.0.0.1
+  master: 127.0.0.1
+  master_port: 6379
+   

@@ -1,0 +1,8 @@
+#common
+hostname: ssy-kafka1
+
+#zookeeper
+kafka_host:
+  id: 1
+  hostname: "{{hostname}}"
+  port: 9092

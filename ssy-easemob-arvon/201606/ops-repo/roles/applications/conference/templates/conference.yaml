@@ -1,0 +1,23 @@
+ redis.conference.host: {{ conference_redis_ip }}
+ redis.conference.port: {{ conference_redis_port }}
+ thrift.conference.host: 0.0.0.0
+ thrift.conference.port: 6996
+ metrics.conference.host: 0.0.0.0
+ metrics.conference.port: 8689
+# rtmp.server.url: "rtmp://123.57.4.213/chat"
+ media.server.secret.key: "I'm a key"
+ media.server.list:
+{% for host in groups['media'] %}
+{% if loop.length >= 1 %}
+   - publicIP: {{ hostvars[host]["media_host_public_ip"] }}
+     ctrlPort: {{ hostvars[host]["media_host_server_port"] }}
+     mediaPort: 5000
+{% endif %}
+{% endfor %}
+
+
+
+
+#     - publicIP: 172.17.200.236
+#       ctrlPort: 1870
+#       mediaPort: 5000

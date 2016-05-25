@@ -1,0 +1,36 @@
+inventory:
+  name: ssy
+  hosts:
+  - name: ssy-ops
+    ip: 10.50.112.59
+    group: ops
+  - name: ssy-db1
+    ip: 10.50.112.59
+    group: dbservers
+  - name: ssy-zk1
+    ip: 10.50.112.59
+    group: zookeeper
+  - name: ssy-redis1
+    ip: 10.50.112.59
+    group: redis
+  - name: ssy-kafka1
+    ip: 10.50.112.59
+    group: kafka
+  - name: ssy-mysql1
+    ip: 10.50.112.59
+    group: mysql
+  - name: ssy-app1
+    ip: 10.50.112.59
+    group: appservers
+  - name: ssy-tools1
+    ip: 10.50.112.59
+    group: tools
+  - name: ssy-thrift1
+    ip: 10.50.112.59
+    group: thrift
+  - name: ssy-ejabberd1
+    ip: 10.50.112.59
+    group: ejabberd
+  - name: ssy-web1
+    ip: 10.50.112.59
+    group: web

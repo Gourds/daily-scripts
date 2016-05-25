@@ -1,0 +1,11 @@
+#common
+hostname: ssy-redis1
+
+redis_master:
+  bind: ssy-redis1
+  
+is_redis_slave: "True"
+redis_slave:
+  bind: ssy-redis1
+  master: ssy-redis1
+  master_port: 6379

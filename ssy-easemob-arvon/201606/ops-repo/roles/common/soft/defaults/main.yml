@@ -1,0 +1,15 @@
+---
+soft:
+  packages:
+  - tmux
+  - git
+  - emacs
+  - erlang
+  - libtool
+  - automake 
+  - autoconf
+  - expat-devel
+  - libyaml-devel
+  - gcc-c++
+  - lsof
+  - nc

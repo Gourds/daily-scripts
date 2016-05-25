@@ -1,0 +1,8 @@
+hostname: ssy-msync1
+monit_ipaddr: "{{ hostname }}"
+machineid: 901
+platformname: ssy
+
+
+
+

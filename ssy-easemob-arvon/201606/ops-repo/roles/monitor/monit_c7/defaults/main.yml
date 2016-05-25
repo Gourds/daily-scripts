@@ -1,0 +1,7 @@
+---
+packages:
+- monit-5.13-1
+
+monit_ipaddr: 127.0.0.1
+monit_mailserver: localhost
+monit_alertto: monitor@easemob.com

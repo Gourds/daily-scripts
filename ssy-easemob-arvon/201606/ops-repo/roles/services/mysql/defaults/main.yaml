@@ -1,0 +1,29 @@
+mysql_root_db_pass: ejabberd
+mysql_root_db_old_pass: ""
+
+mysql:
+  packages:
+  - mysql-community-server
+  - mysql-community-libs
+  - mysql-community-libs-compat
+  - mysql-community-common
+  - mysql-community-client
+  - easemob-mysql-ssy
+  - MySQL-python 
+
+
+mysql_db: 
+     - name: ejabberd
+       replicate: yes
+
+mysql_users:
+     - name: ejabberd
+       pass: ejabberd
+
+
+
+#is_install_mysql_server: False
+#mysql_server: "127.0.0.1"
+#mysql_database: "ejabberd"
+#mysql_username: "ejabberd"
+#mysql_password: "ejabberd"

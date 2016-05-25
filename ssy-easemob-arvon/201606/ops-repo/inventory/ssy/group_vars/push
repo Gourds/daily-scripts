@@ -1,0 +1,12 @@
+profile:
+  service_name: push
+  cluster_name: ssy
+  package_name: easemob-push
+  package_version: 1.3.1.FINAL
+  model: ssy
+attribute_status: ssy
+
+push_host:
+  opts:
+    Xms: 2g
+    Xmx: 4g

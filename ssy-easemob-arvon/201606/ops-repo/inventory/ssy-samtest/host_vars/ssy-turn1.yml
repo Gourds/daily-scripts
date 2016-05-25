@@ -1,0 +1,16 @@
+#common
+hostname: ssy-turn1
+
+
+turn_host_listening_ip: "172.17.200.233"
+turn_host_relay_ip: "172.17.200.233"
+turn_host_external_ip: "172.17.200.233"
+turn_host_listening_port: "3478"
+
+
+#如果有公网ip就都配成公网ip
+
+#如果只有内网ip只配listening-ip和relay-ip
+
+#如果像青云或aws这种映射来的公网ip，则按例子配
+

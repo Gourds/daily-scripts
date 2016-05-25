@@ -1,0 +1,35 @@
+---
+- name: Install media packge
+  yum: name={{item}} state=latest
+  with_items: install.packages
+
+
+- name: Put on the media conf files
+  template: src={{item.src}} dest={{item.dest}} owner=easemob group=easemob mode={{item.mode}} backup=yes
+  with_items:
+  - { src: 'conference.yaml', dest: '/data/apps/config/conference/conference.yaml', mode: 644 }
+  - { src: 'conference-custom.properties', dest: '/data/apps/config/conference/conference-custom.properties', mode: 644 }
+  - { src: 'logback-consol.xml', dest: '/data/apps/config/conference/logback-consol.xml', mode: 644 }
+  - { src: 'logback-file.xml', dest: '/data/apps/config/conference/logback-file.xml', mode: 644 }
+  - { src: 'monit/conference-server.mc', dest: '/data/apps/config/monit/conference-server.mc', mode: 750 }
+
+
+- name: Ensure directory exists
+  file: path={{ item }} state=directory owner=easemob group=easemob
+  with_items:
+    - /data/apps/config/conference/
+    - /data/apps/data/conference/
+    - /data/apps/log/conference/
+    - /data/apps/opt/conference/
+    - /data/apps/var/conference/
+
+- name: chown /data/apps/  for easemob
+  command: chown -R easemob:easemob /data/apps/
+
+- name: restart monit
+  service: name=monit state=restarted
+
+- name: restart conference
+  monit: name=conference state=restarted
+
+

@@ -1,0 +1,28 @@
+- name: Ensure directory exists
+  file: path={{ item }} state=directory owner=easemob group=easemob
+  with_items:
+    - /data/apps/log/msync/
+    - /data/apps/var/msync/
+    - /tmp/data/apps/opt/msync/
+
+- name: Install msync
+  yum: name={{item}} state=installed
+  with_items:
+    - msync-16.03.3.17-0.el6.x86_64
+
+- name: Ensure directory permission right
+  file: path=/data state=directory owner=easemob group=easemob recurse=yes
+
+- name: fix msync RUNNER_USER issue
+  lineinfile: dest=/data/apps/opt/msync/bin/msync regexp='^RUNNER_USER=' line='RUNNER_USER=easemob'
+
+
+- name: Put on the msync files
+  template: src={{item.src}} dest={{item.dest}} owner=easemob group=easemob mode={{item.mode}}
+  with_items:
+  - { src: 'monit/msync.mc', dest: '/data/apps/config/monit/msync.mc', mode: 750 }
+  - { src: 'vm.args', dest: '/data/apps/opt/msync/etc/vm.args', mode: 750 }
+  - { src: 'app.config_{{platformname}}', dest: '/data/apps/opt/msync/etc/app.config', mode: 750 }
+
+- name: restart monit
+  service: name=monit state=restarted

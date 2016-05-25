@@ -1,0 +1,21 @@
+---
+- name: Put on the system options files
+  copy: src=etc/sysctl.conf dest=/etc/sysctl.conf owner=root group=root mode=644
+
+- name: Run the command sysctl -p
+  command: /sbin/sysctl -p
+  ignore_errors: yes
+
+- name: Put on the limit file
+  copy: src=etc/security/limits.d/99-easemob.conf dest=/etc/security/limits.d/99-easemob.conf owner=root group=root mode=644
+
+- name: Run the commands
+  command: /sbin/modprobe nf_conntrack_ipv4
+
+- name: Run the commands
+  command: /sbin/modprobe tcp_htcp
+
+- name: chown /data/apps/  for easemob
+  command: chown -R easemob:easemob /home/easemob/
+
+

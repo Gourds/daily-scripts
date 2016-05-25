@@ -1,0 +1,9 @@
+- hosts: ssy-ejabberd1
+  user: easemob
+  sudo: yes
+  gather_facts: yes
+  roles:
+    - common/lvm
+    - common/base
+    - common/jdk
+    - monitor/monit

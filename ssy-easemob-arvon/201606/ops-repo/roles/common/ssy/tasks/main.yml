@@ -1,0 +1,8 @@
+- include_vars: inventory-list.yml
+
+- name: Add the host into inventory
+  add_host: name={{item.name}} groups={{item.group}} ip={{item.ip}} hostname={{item.name}}
+  with_items: inventory.hosts
+
+- name: Put the file /inventory/ssy/ssy.yml
+  template: src=inventory/ssy/ssy.yml dest={{ hosts_ops_path }}inventory/ssy/ssy.yml owner=root group=root mode=644

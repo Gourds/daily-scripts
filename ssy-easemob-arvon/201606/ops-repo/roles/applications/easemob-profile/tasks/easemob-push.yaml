@@ -1,0 +1,13 @@
+- name: Install easemob-push packge
+  yum: name={{item}} state=installed
+  with_items: profile.packages
+
+- name: Put on the easemob-push conf files
+  template: src={{item.src}} dest={{item.dest}} owner=easemob group=easemob mode={{item.mode}} force=yes
+  with_items:
+  - { src: 'data/apps/config/easemob-push/server-start.sh', dest: '/data/apps/config/easemob-push/server-start.sh', mode: 755 }
+  - { src: 'data/apps/config/easemob-push/server-stop.sh', dest: '/data/apps/config/easemob-push/server-stop.sh', mode: 755 }
+  - { src: 'etc/monit.d/easemob-push.mc', dest: 'etc/monit.d/easemob-push.mc', mode: 644 }
+  notify:
+  - reload monit
+  - restart easemob-push

@@ -1,0 +1,6 @@
+{% for host in inventory.hosts %}
+[{{host.group}}]
+{{host.name}}
+
+
+{% endfor %}

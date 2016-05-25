@@ -1,0 +1,4 @@
+- name: Put on the system init script
+  template: src={{ item.src }} dest={{ item.dest }} owner=easemob group=easemob mode={{ item.mode }}
+  with_items:
+    - { src: data/init_usergrid.sh, dest: /data/init_usergrid.sh, mode: 755 }

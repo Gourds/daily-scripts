@@ -1,0 +1,70 @@
+<configuration scan="true" scanPeriod="300 seconds">
+    <property name="storm.log.level" value="INFO"/>
+    <property name="kafka.log.level" value="INFO"/>
+    <property name="im.baas.log.level" value="INFO"/>
+    <property name="USERGRID_LOG_DIR" value="/data/apps/log/usergrid"/>
+    <property name="USERGRID_LOG_NAME" value="{{ logback_usergrid_log_name }}"/>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Encoding>UTF-8</Encoding>
+        <File>${USERGRID_LOG_DIR}/${USERGRID_LOG_NAME}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${USERGRID_LOG_DIR}/${USERGRID_LOG_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FLOW_LIMIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Encoding>UTF-8</Encoding>
+        <File>${USERGRID_LOG_DIR}/flow-limit.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+             <fileNamePattern>${USERGRID_LOG_DIR}/flow-limit.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+
+        <encoder>
+              <pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+     </appender>
+
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <logger name="org.apache" level="WARN"/>
+    <logger name="org.apache.zookeeper" level="WARN"/>
+    <logger name="org.apache.usergrid.persistence.cassandra.BATCH" level="WARN"/>
+    <logger name="org.apache.usergrid.persistence.cassandra.ConnectionRefImpl" level="WARN"/>
+    <logger name="org.apache.usergrid.persistence.cassandra.DaoUtils" level="WARN"/>
+    <logger name="org.apache.usergrid.persistence.cassandra.DB" level="WARN"/>
+    <logger name="org.apache.usergrid.persistence.cassandra.EntityManagerFactoryImpl" level="WARN"/>
+    <logger name="org.apache.usergrid.persistence.cassandra.EntityManagerImpl" level="WARN"/>
+    <logger name="org.apache.usergrid.rest.security.AllowAjaxFilter" level="WARN"/>
+    <logger name="org.apache.usergrid.metrics" level="INFO"/>
+    <logger name="org.apache.usergrid" level="WARN"/>
+
+    <logger name="kafka" level="${kafka.log.level}"/>
+    <logger name="applications.users.UsersResource.RegistAndResetpasswd" level="INFO"/>
+    <logger name="me.prettyprint.cassandra" level="WARN"/>
+    <logger name="me.prettyprint.hector.api.beans.AbstractComposite" level="ERROR"/>
+
+    <logger name="im.baas.persistence.EntityManagerCachedImpl" level="WARN"/>
+
+    <logger name="im.baas" level="${im.baas.log.level}"/>
+    <logger name="im.baas.kafka.producer" level="INFO"/>
+
+    <logger name="backtype.storm" level="${storm.log.level}"/>
+    <!--<logger name="storm.kafka" level="${storm.log.level}"/>-->
+    <logger name="storm.kafka" level="INFO"/>
+    <logger name="com.netflix.astyanax" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="TraceTagReporter" level="WARN"/>
+    <logger name="Performance" level="WARN"/>
+
+    <logger name="org.apache.usergrid.rest.filters.FlowLimitFilter" level="WARN" additivity="false" >
+        <appender-ref ref="FLOW_LIMIT" />
+    </logger>
+
+
+</configuration>

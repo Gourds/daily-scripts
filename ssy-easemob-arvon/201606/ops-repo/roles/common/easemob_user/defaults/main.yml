@@ -1,0 +1,6 @@
+users:
+  - user: easemob
+    passwd: '$6$rounds=100000$MrC5hNHcQuViElFm$7VrTO2ugyrXFnfe6L1HHvqLpzIFubG4V/PPAe.dcc3mfIOu/sGw9axeHaXki7mMowawNOMhspnzXAzD5fr55Q1'
+    comment: 'easemob'
+    shell: /bin/bash
+    group: easemob

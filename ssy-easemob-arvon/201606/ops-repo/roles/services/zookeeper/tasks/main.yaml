@@ -1,0 +1,22 @@
+---
+- name: Install easemob-zookeeper package
+  yum: name={{item}} state=latest 
+  with_items: zookeeper.packages
+
+- name: Add the zookeeper path
+  lineinfile: dest=/etc/profile line="{{item}}"
+  with_items:
+  - "JMXDISABLE=true"
+  - "ZOOCFGDIR=/data/apps/config/zookeeper"
+  - "ZOO_LOG_DIR=/data/apps/log/zookeeper"
+  - "ZOOPIDFILE=/data/apps/var/zookeeper/zookeeper.pid"
+  - "export ZOOCFGDIR ZOO_LOG_DIR ZOOPIDFILE"
+
+- name: Put the conf file zoo.cfg
+  template: src={{item.src}} dest={{item.dest}} owner=easemob group=easemob mode={{item.mode}}
+  with_items:
+  - { src: 'data/apps/data/zookeeper/myid', dest: '/data/apps/data/zookeeper/myid', mode: 644 }
+  - { src: 'data/apps/config/zookeeper/zoo.cfg', dest: '/data/apps/config/zookeeper/zoo.cfg', mode: 644 }
+  notify:
+    - reload monit
+    - restart zookeeper

@@ -1,0 +1,6 @@
+---
+#- name: install easemob-app repo
+#  template: src=etc/yum.repos.d/easemob-app.repo dest=/etc/yum.repos.d/easemob-app.repo owner=root group=root mode=644
+
+#- name: yum makecache
+#  command: /usr/bin/yum makecache

@@ -1,0 +1,35 @@
+- name: Ensure directory exists
+  file: path={{ item }} state=directory owner=easemob group=easemob
+  with_items:
+    - /data/apps/config/easemob-{{ profile.service_name }}/
+    - /data/apps/data/easemob-{{ profile.service_name }}/
+    - /data/apps/log/easemob-{{ profile.service_name }}/
+    - /data/apps/opt/easemob-{{ profile.service_name }}/
+    - /data/apps/var/easemob-{{ profile.service_name }}/
+
+- name: Put on the easemob-push script files
+  template: src={{item.src}} dest={{item.dest}} owner=easemob group=easemob mode={{item.mode}} force=yes
+  with_items:
+    - {src: 'start.sh', dest: '/data/apps/config/easemob-{{ profile.service_name }}/start.sh', mode: 755}
+    - {src: 'stop.sh', dest: '/data/apps/config/easemob-{{ profile.service_name }}/stop.sh', mode: 755}
+
+- name: Install easemob-push-ssy packge
+  yum: name=easemob-push-ssy state=present
+
+
+#- name: fetch jar
+#  command: /data/apps/opt/easemob-{{ profile.service_name }}/fetch-jar.sh
+
+- name: update monit config
+  template: src=easemob-push-monit dest=/data/apps/config/monit/easemob-{{ profile.service_name }}.mc owner=easemob group=easemob mode=755 force=yes
+
+- name: reload monit
+  command:  /usr/bin/monit reload
+
+- name: stop app
+  monit: name=easemob-{{ profile.service_name }} state=stopped
+
+- name: start app
+  monit: name=easemob-{{ profile.service_name }} state=restarted
+  tags:
+    - restart_push

@@ -1,0 +1,8 @@
+- hosts: push
+  user: easemob
+  sudo: yes
+  gather_facts: yes
+  roles:
+   # - app_rest/usergrid_properties
+   # - app_rest/usergrid_tools
+    - applications/easemob-push

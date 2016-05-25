@@ -1,0 +1,13 @@
+- hosts: ssy-app1
+  user: easemob
+  sudo: yes
+  gather_facts: no
+  roles:
+    - common/resetpasswd
+
+- hosts: all
+  user: easemob
+  sudo: yes
+  gather_facts: no
+  roles:
+    - common/eliminate

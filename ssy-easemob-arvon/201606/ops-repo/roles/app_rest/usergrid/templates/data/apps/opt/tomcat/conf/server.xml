@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Server port="8005" shutdown="SHUTDOWN">
+  <Listener className="org.apache.catalina.core.JasperListener" />
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+
+  <Service name="Catalina">
+
+    <Connector port="{{usergrid_host.port}}" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               maxConnections="10000"
+               acceptCount="5000"
+               acceptorThreadCount="2"
+               maxThreads="1000"
+               minSpareThreads="500"
+               maxSpareThreads="1000"
+               URIEncoding="utf-8"
+               maxPostSize="20971520"
+               address="{{usergrid_host.hostname}}"
+               enableLookups="false"
+               redirectPort="8443" />
+
+    <Engine name="Catalina" defaultHost="{{usergrid_host.hostname}}">
+      <Host name="{{usergrid_host.hostname}}"  appBase="webapps"
+            unpackWARs="true" autoDeploy="false">
+      </Host>
+    </Engine>
+  </Service>
+</Server>

@@ -1,0 +1,13 @@
+---
+
+- name: install easemob-ssy repo
+  template: src=etc/yum.repos.d/easemob-ssy.repo dest=/etc/yum.repos.d/easemob-ssy.repo owner=root group=root mode=644
+
+- name: install resolv.conf
+  template: src=etc/resolv.conf dest=/etc/resolv.conf owner=root group=root mode=644
+
+- name: install yum.conf
+  template: src=etc/yum.conf dest=/etc/yum.conf owner=root group=root mode=644
+
+- name: yum makecache
+  command: /usr/bin/yum makecache

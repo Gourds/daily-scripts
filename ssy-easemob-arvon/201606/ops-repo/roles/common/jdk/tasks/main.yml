@@ -1,0 +1,15 @@
+---
+- name: Get the jdk package
+  yum: name={{java_package}} state=installed
+
+- name: Add the JAVA_HOME path
+  lineinfile: dest=/etc/profile line="export JAVA_HOME={{java_home}}" 
+
+- name: Add the JAVA_HOME/bin path
+  lineinfile: dest=/etc/profile line="export PATH=$JAVA_HOME/bin:$PATH" 
+  
+- name: Create the JAVA_HOME
+  file: path=/usr/local/java/ owner=root group=root mode=755 state=directory
+  
+- name: Create the soft link of jdk
+  file: src=/usr/java/{{java_package}} dest=/usr/local/java/jdk state=link

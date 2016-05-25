@@ -1,0 +1,23 @@
+---
+- name: Install easemob-kafka package
+  yum: name={{item}} state=latest
+  with_items: kafka_install.packages
+
+- name: Put on the kafka conf files
+  template: src={{item.src}} dest={{item.dest}} owner=easemob group=easemob mode={{item.mode}}
+  with_items:
+  - { src: 'data/apps/config/kafka/server.properties', dest: '/data/apps/config/kafka/server.properties', mode: 644 }
+  - { src: 'etc/monit.d/kafka.mc', dest: '/etc/monit.d/kafka.mc', mode: 644 }
+
+- name: reload monit
+  command:  /usr/bin/monit reload
+
+- name: stop app
+  monit: name=kafka state=stopped
+
+- name: start app
+  monit: name=kafka state=restarted
+
+
+#- name: Create the topic usergrid_command
+#  command: /data/apps/opt/kafka/bin/kafka-topics.sh --zookeeper "{{kafka_create.zookeeper}}" --create --topic usergrid_command --partitions 10 --replication-factor 1 && touch /data/apps/data/kafka/topic_usergrid creates=/data/apps/data/kafka/topic_usergrid

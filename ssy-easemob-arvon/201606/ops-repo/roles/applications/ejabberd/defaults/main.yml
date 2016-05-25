@@ -1,0 +1,13 @@
+---
+ej_ipaddr : "127.0.0.1"
+ej_inetrc_ip: "127,0,0,1"
+ej_domain: "localhost"
+ejabberd_log_type: "file"
+#node_role: "conn"
+
+
+ejabberd_install:
+  packages:
+  - easemob-ejabberd-ssy
+  - libyaml-devel
+  - expect

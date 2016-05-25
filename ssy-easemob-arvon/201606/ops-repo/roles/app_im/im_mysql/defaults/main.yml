@@ -1,0 +1,8 @@
+---
+im_mysql:
+  packages:
+  - easemob-mysql-ssy
+  server: "127.0.0.1"
+  database: "ejabberd"
+  username: "ejabberd"
+  password: "ejabberd"

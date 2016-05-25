@@ -1,0 +1,5 @@
+{% for host in groups['ejabberd_conn'] %}
+{% if loop.length >= 1 %}
+    - "ejabberd@{{ hostvars[host]['hostname'] }}"
+{% endif %}
+{% endfor %}

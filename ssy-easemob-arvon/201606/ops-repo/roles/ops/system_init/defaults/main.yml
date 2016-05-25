@@ -1,0 +1,6 @@
+system_init:
+  name: webmaster
+  password: ssy123WEBmaster
+  usergrid:
+    host: 127.0.0.1
+    port: 8080

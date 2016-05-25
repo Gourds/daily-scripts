@@ -1,0 +1,47 @@
+---
+- name: Install mysql package
+  yum: name={{ item }} state=latest 
+  with_items: mysql.packages
+
+- name: Put the my.cnf
+  template: src=etc/my.cnf.j2 dest=/etc/my.cnf owner=root group=root mode=644
+  notify:
+    - restart mysql
+
+- name: Enable the mysqld service
+  service: name=mysqld state=started enabled=yes
+
+
+- name : update mysql root password for all localhost root accounts
+  mysql_user :
+    name     : root
+    host     : "{{ item }}"
+    password : "{{ mysql_root_db_pass }}"
+    login_user     : root 
+    login_password : "{{ mysql_root_db_pass | default('mysql_root_db_old_pass') }}"
+    check_implicit_admin : yes
+  with_items:
+   - 127.0.0.1
+   - ::1
+   - localhost
+
+- name: Create the database's
+  mysql_db: 
+    name           : ejabberd
+    state          : present
+    login_user     : root
+    login_password : "{{ mysql_root_db_pass }}"
+
+
+- name: Create the database users
+  mysql_user: name=ejabberd password=ejabberd priv=*.*:ALL,GRANT host="%" login_user=root login_password=ejabberd state=present
+
+##- name: Restore it to ejabberd_db mysql_ejabberd.sql
+##  mysql_db: name=ejabberd state=import target=/data/mysql_import/mysql_ejabberd.sql login_user=root login_password=ejabberd
+##
+##- name: Restore it to ejabberd_db mysql_log.sql
+##  mysql_db: name=ejabberd state=import target=/data/mysql_import/mysql_log.sql login_user=ejabberd login_password=ejabberd
+##- name: Restore it to ejabberd_db messageindex_sharded.sql
+##  mysql_db: name=ejabberd state=import target=/data/mysql_import/messageindex_sharded.sql login_user=ejabberd login_password=ejabberd
+##  notify:
+##    - restart mysql

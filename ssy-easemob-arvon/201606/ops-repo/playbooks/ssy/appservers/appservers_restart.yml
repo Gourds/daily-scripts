@@ -1,0 +1,6 @@
+- hosts: appservers
+  user: easemob
+  sudo: yes
+  gather_facts: yes
+  tasks:
+    - command: monit restart tomcat

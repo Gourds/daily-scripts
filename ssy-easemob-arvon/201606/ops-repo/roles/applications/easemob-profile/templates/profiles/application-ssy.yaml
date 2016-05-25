@@ -1,0 +1,371 @@
+server:
+  undertow:
+    workerThreads: 600
+####### ganglia reporter ##############
+usergrid:
+  metrics:
+    ganglia:
+      host: 127.0.0.1
+      port: 8677
+  lock:
+    manager: {{ usergrid_lock_manager }}
+  thrift:
+    register_with_login: false
+    validate_from_db: {{ usergrid_validate_from_db }}
+  validate-orginfo-from-regist-center: false
+  settings:
+    user_max_joined_chatgroups:
+      throttle_hold: 5000
+      validate: true
+    user_max_joined_chatrooms:
+      throttle_hold: 5000
+      validate: true
+    app_max_chatgroups:
+      throttle_hold: 500000
+      validate: false
+    app_max_chatrooms:
+      throttle_hold: 500000
+      validate: false
+    query_all_chatgroups:
+      throttle_hold: 5000
+      validate: true
+    query_chatgroups_by_page:
+      throttle_hold: 5000
+      validate: false
+easemob:
+  flow:
+    limit:
+      redis:
+        rule:
+          uri: tcp://{{ easemob_push }}:{{ redis_master_port }}
+        count:
+          uri: tcp://{{ easemob_push }}:{{ redis_master_port }}
+  push:
+    workerThread: 100
+    threshold: 20
+    bannedTime: 300
+    timeout: 3
+    ejabberdRedis:
+      uri: tcp://{{ easemob_push }}:{{ redis_master_port }}
+      maxPool: 200
+      topics: {{ easemob_push_topic }}
+    writeApnsTodoRedis:
+      uri: tcp://{{ easemob_push }}:{{ redis_master_port }}
+      pool:
+        max_total: 20
+    redis:
+      host: {{ easemob_push }}
+      port: {{ redis_master_port }}
+      topics: {{easemob_push_topic}}
+    vipTodoQueueAppkeys: {{easemob_push_vip_appkeys}}
+    muteAppkeys:
+      - engzo#lls
+    gcm:
+      proxy:
+        enabled: true
+        host: 106.185.38.147
+        port: 62015
+  redis:
+    bloomfilter:
+      registeruser:
+        uri: tcp://{{ easemob_redis }}:{{ redis_master_port }}
+    pool:
+      max_total: {{ usergrid_redis_pool }}
+      timeout: 5000
+    mq:
+      chatgroup:
+        enable: true
+        uri: tcp://{{ easemob_redis }}:{{ redis_master_port }}
+      zsetchatgroup:
+        enable: true
+        uri: tcp://{{ easemob_redis }}:{{ redis_master_port }}
+      message:
+        publisher:
+          enable: true
+          uri: tcp://{{ easemob_redis }}:{{ redis_master_port }}
+    roster:
+      uri: tcp://{{ easemob_redis }}:{{ redis_master_port }}
+      enable: true
+      pool:
+        max_total: 20
+    cache:
+      main:
+        master:
+          node1: tcp://{{ redis1_master }}:{{ redis_master_port }}
+          node2: tcp://{{ redis2_master }}:{{ redis_master_port }}
+        slave:
+          node1: tcp://{{ redis1_master }}:{{ redis_master_port }}
+          node2: tcp://{{ redis2_master }}:{{ redis_master_port }}
+      file:
+        master:
+          node1: tcp://{{ redis1_master }}:{{ redis_master_port }}
+          node2: tcp://{{ redis2_master }}:{{ redis_master_port }}
+        slave:
+          node1: tcp://{{ redis2_master }}:{{ redis_slave_port }}
+          node2: tcp://{{ redis1_master }}:{{ redis_slave_port }}
+      entity:
+        master:
+          node1: tcp://{{ redis3_master }}:{{ redis_master_port }}
+          node2: tcp://{{ redis4_master }}:{{ redis_master_port }}
+        slave:
+          node1: tcp://{{ redis4_master }}:{{ redis_slave_port }}
+          node2: tcp://{{ redis3_master }}:{{ redis_slave_port }}
+      org_app:
+        master:
+          node1: tcp://{{ redis5_master }}:{{ redis_master_port }}
+          node2: tcp://{{ redis6_master }}:{{ redis_master_port }}
+        slave:
+          node1: tcp://{{ redis6_master }}:{{ redis_slave_port }}
+          node2: tcp://{{ redis5_master }}:{{ redis_slave_port }}
+      token:
+        master:
+          node1: tcp://{{ redis7_master }}:{{ redis_master_port }}
+          node2: tcp://{{ redis8_master }}:{{ redis_master_port }}
+        slave:
+          node1: tcp://{{ redis8_master }}:{{ redis_slave_port }}
+          node2: tcp://{{ redis7_master }}:{{ redis_slave_port }}
+      config:
+        master:
+          node1: tcp://{{ redis5_master }}:{{ redis_master_port }}
+          node2: tcp://{{ redis6_master }}:{{ redis_master_port }}
+        slave:
+          node1: tcp://{{ redis6_master }}:{{ redis_slave_port }}
+          node2: tcp://{{ redis5_master }}:{{ redis_slave_port }}
+      appConfig:
+        master:
+          node1: ${easemob.redis.cache.config.master.node1}
+          node2: ${easemob.redis.cache.config.master.node2}
+        slave:
+          node1: ${easemob.redis.cache.config.slave.node1}
+          node2: ${easemob.redis.cache.config.slave.node2}
+      dnsConfig:
+        master:
+          node1: ${easemob.redis.cache.config.master.node1}
+          node2: ${easemob.redis.cache.config.master.node2}
+        slave:
+          node1: ${easemob.redis.cache.config.slave.node1}
+          node2: ${easemob.redis.cache.config.slave.node2}
+    user_status:
+      uri: tcp://{{ easemob_user_status }}:{{ redis_master_port }}
+      enable: true
+      search:
+        codis: true
+        im: true
+  jdbc:
+    appconfig:
+      jdbcUrl: jdbc:mysql://{{ ejabberd_conf.odbc.server }}:3306/appconfig?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&maxReconnects=3&initialTimeout=5
+      user: appconfig
+      password: tmk-kyf-79b-A8r
+    roster:
+      jdbcUrl: jdbc:mysql://{{ ejabberd_conf.odbc.server }}:3306/ejabberd?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&maxReconnects=3&initialTimeout=5
+      user: {{ ejabberd_conf.odbc.username }}
+      password: {{ ejabberd_conf.odbc.password }}
+  cluster:
+    name: ssy
+    signSecret:
+      sandbox: 07ef7c4d2e8a5bdea1937ade3e548a70
+      beijing: 5217ba1127dbe5cc8e03e6af7d2fe0f1
+    dnsConfigId:
+      sandbox: 1
+      beijing: 1
+  thrift:
+    server:
+      appconfig:
+        host: 127.0.0.1
+        port: 9997
+  rest:
+    domain: http://{{ api_site }}
+  console:
+    domain: https://{{ console_site }}
+# 消息状态查询所使用的mysql的信息, 如果 enable=false的话, 该功能不可用, 也只需要在提供
+# 该服务的rest service中启用这个, 其他的, 例如推送服务和thrift等都不应该启用
+  usergrid:
+    service:
+      message:
+        state:
+          enable: {{ usergrid_service_message_state_enable }}
+  rds:
+    dataSourceInfos:
+      - name: ali-rds_0
+        username: ejabberd
+        password: ejabberd
+        maxTotal: 10
+        url: jdbc:mysql://{{ ejabberd_conf.odbc.server }}:3306/ejabberd
+        driverClassName: com.mysql.jdbc.Driver
+      - name: ali-rds_1
+        username: ejabberd
+        password: ejabberd
+        maxTotal: 10
+        url: jdbc:mysql://{{ ejabberd_conf.odbc.server }}:3306/ejabberd
+        driverClassName: com.mysql.jdbc.Driver
+      - name: ali-rds_2
+        username: ejabberd
+        password: ejabberd
+        maxTotal: 10
+        url: jdbc:mysql://{{ ejabberd_conf.odbc.server }}:3306/ejabberd
+        driverClassName: com.mysql.jdbc.Driver
+      - name: ali-rds_3
+        username: ejabberd
+        password: ejabberd
+        maxTotal: 10
+        url: jdbc:mysql://{{ ejabberd_conf.odbc.server }}:3306/ejabberd
+        driverClassName: com.mysql.jdbc.Driver
+      - name: ali-rds_4
+        username: ejabberd
+        password: ejabberd
+        maxTotal: 10
+        url: jdbc:mysql://{{ ejabberd_conf.odbc.server }}:3306/ejabberd
+        driverClassName: com.mysql.jdbc.Driver
+      - name: ali-rds_5
+        username: ejabberd
+        password: ejabberd
+        maxTotal: 10
+        url: jdbc:mysql://{{ ejabberd_conf.odbc.server }}:3306/ejabberd
+        driverClassName: com.mysql.jdbc.Driver
+      - name: ali-rds_6
+        username: ejabberd
+        password: ejabberd
+        maxTotal: 10
+        url: jdbc:mysql://{{ ejabberd_conf.odbc.server }}:3306/ejabberd
+        driverClassName: com.mysql.jdbc.Driver
+      - name: ali-rds_7
+        username: ejabberd
+        password: ejabberd
+        maxTotal: 10
+        url: jdbc:mysql://{{ ejabberd_conf.odbc.server }}:3306/ejabberd
+        driverClassName: com.mysql.jdbc.Driver
+    partionInfos:
+      - bizName: message
+        dataSourceName: ali-rds
+        dataSourceSize: 8
+        dataSourcePartionType: crc32
+        tableName: message_index
+        tableSize: 65536
+        tablePartionType: crc32
+# 单聊消息发送的topic/list
+publish:
+  message:
+    batch:
+      enabled: true
+  chat:
+    message:
+      throttle_hold: 200
+      topic: {{usergrid_publish_chat_message_topic}}
+      batch:
+        topic: {{usergrid_publish_chat_message_batch_topic}}
+# 群聊消息发送的topic/list
+  groupchat:
+    message:
+      throttle_hold: 200
+      topic: {{usergrid_publish_groupchat_message_topic}}
+      batch:
+        topic: {{usergrid_publish_groupchat_message_batch_topic}}
+#################### qiniu configs ##############
+qiniu:
+  config:
+    access_key: bjScxf42YgWt3flUz6fzdVURbfVru1nw-IWp2Kx8
+    secret_key: JYBf6iqjA9zxNnfN5VvG7YgRw_Lff0YLjTtNRpOk
+    bucket_name: zhangweitest
+    domain: 7u2iqx.com1.z0.glb.clouddn.com
+kafka:
+  producer:
+    config:
+      default:
+        metadata.broker.list:  {{ easemob_kafka }}
+      metricsThriftTSDataProducer:
+        serializer.class: im.baas.counter.ThriftKafkaEncoderAndDecoder
+        metadata.broker.list:  {{ easemob_kafka }}
+      orgInfoProducerConfig:
+        topic: orginfo-push-topic
+###### cassandra ######
+cassandra:
+  url: {{ usergrid_cassandra_url }}
+  ttl: {{ usergrid_cassandra_ttl }}
+  connections: {{ usergrid_cassandra_connections }}
+  maxWaitTimeWhenExhausted: -1
+  limitDBAccessNum: {{ cassandra_limitDBAccessNum }}
+  origin:
+    url: {{ usergrid_cassandra_url }}
+    connections: {{ cassandra_origin_connections }}
+    cluster: "Easemob Cluster"
+    strategy: org.apache.cassandra.locator.SimpleStrategy
+    replication: {{ cassandra_origin_replication }}
+    username:
+    password:
+    readcl: QUORUM
+    writecl: QUORUM
+    flushSize: {{ cassandra_origin_flushSize }}
+    maxWaitTimeWhenExhausted: {{ cassandra_origin_maxWaitTimeWhenExhausted }}
+    maxDBAccessThreadNum: {{ cassandra_origin_maxDBAccessThreadNum }}
+  message:
+    url: {{ cassandra_message_url }}
+    connections: {{ cassandra_message_connections }}
+    cluster: "Easemob Message Cluster"
+    strategy: org.apache.cassandra.locator.SimpleStrategy
+    replication: {{ cassandra_message_replication }}
+    username:
+    password:
+    readcl: QUORUM
+    writecl: QUORUM
+    flushSize: {{ cassandra_message_flushSize }}
+    maxWaitTimeWhenExhausted: {{ cassandra_message_maxWaitTimeWhenExhausted }}
+    maxDBAccessThreadNum: {{ cassandra_message_maxDBAccessThreadNum }}
+########### ejabberd ############
+ejabberd:
+  host: http://{{ ejabberd_conn_host }}:5280
+  domain: easemob.com
+####################### zookeeper ##################
+zookeeper:
+  url: {{ easemob_zookeeper_url }}
+storm:
+  topology:
+    default:
+      stormZkServers: {{ easemob_storm_stormzk }}
+thrift:
+  server:
+    workers: 40
+#chatmessage_river
+elasticsearch:
+  server:
+    host: http://vip1-ali-hangzhou-ela1:9200
+chatmessages:
+  thrift:
+    server:
+      host: {{ usergrid_chatmessages_host }}
+      port: 9998
+metrics:
+  server:
+    opentsdb:
+      host: opentsdb.easemob.com
+  client:
+    cluster:
+      name: vip1-ali-hangzhou
+  query:
+    datasource: {{ metrics_qeury_datasource }}
+    newschema: {{ metrics_query_newschema }}
+  persistence:
+    opentsdb:
+      enable: {{ metrics_persistence_opentsdb_enable }}
+    cassandra:
+      enable: {{ metrics_persistence_cassandra_enable }}
+  storm:
+    aggregate:
+      delay:
+        max:
+          millis: 30000
+      cache:
+        max:
+          millis: 3000
+    cluster:
+      name: vip1-ali-hangzhou
+    kafka:
+      aggregated:
+        topic: tsdb
+      unaggregated:
+        topic: metrics-topic
+management:
+  health:
+    db:
+      enabled: false
+logging:
+  config: /data/apps/config/easemob-{{ profile.service_name }}/logback.xml

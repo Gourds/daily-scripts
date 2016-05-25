@@ -1,0 +1,24 @@
+- name: Install the yum packages
+  yum: name={{item}} state=latest 
+  with_items: yum.packages
+
+- name: Create the repo directory
+  file: path=/data/repo/yum/easemob/6/applications state=directory recurse=yes owner=easemob group=easemob
+
+- name: Get the packages tar file
+  get_url: url=http://yum.op.easemob.com/yum/easemob/6/private_cloud/{{yumrepo.file}}.tar.gz dest=/tmp/{{yumrepo.file}}.tar.gz
+
+- name: Unarchive the package tar file
+  unarchive: src=/tmp/{{yumrepo.file}}.tar.gz dest=/data/repo/yum/easemob/6/applications/ copy=no
+
+- name: Create the latest link
+  file: src=/data/repo/yum/easemob/6/applications/{{yumrepo.file}} dest=/data/repo/yum/easemob/6/applications/latest state=link
+
+- name: Create the yum repo
+  command: /usr/bin/createrepo /data/repo/yum/easemob/6/applications/latest
+
+- name: Put on the nginx conf files
+  template: src={{ item.src }} dest={{ item.dest }} owner=easemob group=easemob mode={{ item.mode }}
+  with_items:
+    - { src: data/apps/config/nginx/conf.d/yum.conf, dest: /data/apps/config/nginx/conf.d/yum.conf, mode: 644 }
+  notify: reload nginx

@@ -1,0 +1,18 @@
+---
+- name: Install easemob-usergrid package
+  yum: name={{item}} state=latest 
+  with_items: usergrid_install.packages
+  notify:
+    - reload monit
+    - reload monit
+    - restart tomcat
+
+- name: Put on the usergrid configuration file
+  template: src={{item.src}} dest={{item.dest}} owner=easemob group=easemob mode={{item.mode}}
+  with_items:
+  - { src: 'data/apps/opt/tomcat/conf/server.xml', dest: '/data/apps/opt/tomcat/conf/server.xml', mode: 644 }
+  - { src: 'data/apps/config/monit/tomcat.mc', dest: '/data/apps/config/monit/tomcat.mc', mode: 644 }
+  notify:
+    - reload monit
+    - reload monit
+    - restart tomcat

@@ -1,0 +1,19 @@
+web_install:
+  packages:
+  - easemob-nginx-ssy
+  - easemob-web-api
+  - easemob-web-console
+  - easemob-web-im-ssy
+
+api_port: 80
+api_site: "{{hostname}}:{{api_port}}"
+
+console_port: 80
+console_site: "{{hostname}}:{{console_port}}"
+
+webim_port: 80
+webim_site: "{{hostname}}:{{webim_port}}"
+
+imapi_port: 80
+imapi_site: "{{hostname}}:{{imapi_port}}"
+

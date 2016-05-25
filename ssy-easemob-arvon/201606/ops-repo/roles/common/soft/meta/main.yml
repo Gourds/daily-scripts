@@ -1,0 +1,3 @@
+dependencies:
+   - common/easemob_repo
+   - common/easemob_user

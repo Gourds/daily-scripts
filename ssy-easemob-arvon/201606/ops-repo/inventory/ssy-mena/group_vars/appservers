@@ -1,0 +1,19 @@
+profile:
+  service_name: rest
+  cluster_name: ssy
+  port: 8080
+  packages:
+    - easemob-rest
+
+attribute_status: ssy
+
+usergrid_install:
+  packages:
+    - easemob-usergrid
+
+usergrid_host:
+  hostname: "{{ hostname }}"
+  port: 8080
+  opts:
+    Xms: 2g
+    Xmx: 4g

@@ -1,0 +1,48 @@
+---
+- name: Install ejabberd packge
+  yum: name={{item}} state=latest
+  with_items: ejabberd_install.packages
+
+- name: Create the symbol link of the ejabberd dir
+  file: src=/data/apps/opt/ejabberd dest=/opt/ejabberd state=link
+
+
+- name: Put on the ejabberd conf files
+  template: src={{item.src}} dest={{item.dest}} owner=easemob group=easemob mode={{item.mode}} backup=yes
+  with_items:
+  - { src: 'ejabberdctl.cfg', dest: '/data/apps/opt/ejabberd/etc/ejabberd/ejabberdctl.cfg', mode: 644 }
+  - { src: 'inetrc', dest: '/data/apps/opt/ejabberd/etc/ejabberd/inetrc', mode: 644 }
+  - { src: 'monit/ejabberd.mc', dest: '/data/apps/config/monit/ejabberd.mc', mode: 750 }
+  - { src: 'ejabberd.yml_{{ ejabberd_host.node_role }}', dest: '/data/apps/opt/ejabberd/etc/ejabberd/ejabberd.yml', mode: 644 }
+  - { src: '.erlang.cookie', dest: '/data/apps/opt/ejabberd/var/lib/ejabberd/.erlang.cookie', mode: 400 }
+  - { src: '.hosts.erlang', dest: '/data/apps/opt/ejabberd/var/lib/ejabberd/.hosts.erlang', mode: 644 }
+  - { src: 'message_store.config_{{ ejabberd_host.node_role }}.yml', dest: '/data/apps/opt/ejabberd/etc/ejabberd/message_store.config', mode: 644  }
+
+
+- name: Create the dir /opt/shell
+  file: path=/opt/shell state=directory owner=easemob group=easemob
+
+- name: Put on the log script and set the cron job
+  copy: src=ejabberd_error.sh dest=/opt/shell/ejabberd_error.sh owner=easemob group=easemob mode=755
+
+- name: Ensure directory exists
+  file: path={{ item }} state=directory owner=easemob group=easemob
+  with_items:
+    - /data/apps/config/ejabberd/
+    - /data/apps/data/ejabberd/
+    - /data/apps/log/ejabberd/
+    - /data/apps/opt/ejabberd/
+    - /data/apps/var/ejabberd/
+
+- name: fix ejabberd INSTALLUSER issue
+  lineinfile: dest=/data/apps/opt/ejabberd/bin/ejabberdctl regexp='^INSTALLUSER=' line='INSTALLUSER=easemob'
+
+- name: chown /data/apps/  for easemob
+  command: chown -R easemob:easemob /data/apps/
+
+- name: restart monit
+  service: name=monit state=restarted
+
+- name: restart ejabberd
+  monit: name=ejabberd state=restarted
+

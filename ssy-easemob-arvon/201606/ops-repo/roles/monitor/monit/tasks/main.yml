@@ -1,0 +1,26 @@
+---
+- name: Install the monit packages
+  yum: name={{ item }} state=latest
+  with_items: packages
+
+- name: Put the files to /data/apps/config/monit
+  template: src=data/apps/config/monit/{{ item }} dest=/data/apps/config/monit/{{ item }} owner=easemob group=easemob mode=750
+  with_items:
+     - disk.mc
+     - sshd.mc
+     - cron.mc
+     - file.mc
+     - system.mc
+  notify:
+     - reload monit
+
+- name: Put the files /etc/monitrc
+  template: src=etc/monitrc dest=/etc/monitrc owner=root group=root mode=700
+  notify:
+     - reload monit
+
+- name: chown monit log
+  command: chown -R easemob:easemob /data/apps/
+
+- name: start and enable monit
+  service: name=monit state=started enabled=yes

@@ -1,0 +1,14 @@
+---
+
+#- name: Create /home/easemob/.ssh dir
+#  file: path=/home/easemob/.ssh/ owner=easemob group=easemob mode=700 state=directory
+
+- name: Create ops.id_rsa.pub to authorized_keys
+  authorized_key:
+    user: root
+    key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+    path: '/home/easemob/.ssh/authorized_keys'
+    manage_dir: no    
+
+#- name: chown+mod  authorized_keys
+#  file: path=/home/easemob/.ssh/authorized_keys owner=easemob group=easemob mode=644
