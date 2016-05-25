@@ -1,2 +1,0 @@
-kafka_conf:
-  zookeeper_cluster: "ssy-zk1:2181" #modify

@@ -1,1 +1,0 @@
-*/5 * * * * root /usr/sbin/ntpdate {{ntpserver}}

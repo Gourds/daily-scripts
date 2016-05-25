@@ -1,3 +1,0 @@
----
-- name: Set /etc/motd
-  template: src=etc/motd dest=/etc/motd owner=root group=root mode=644

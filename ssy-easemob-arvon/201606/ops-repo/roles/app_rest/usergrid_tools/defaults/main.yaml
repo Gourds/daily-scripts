@@ -1,8 +1,0 @@
-tools_install:
-  packages:
-  - easemob-usergrid-tools
-
-tools_host:
-  opts:
-    Xms: 8g
-    Xmx: 8g

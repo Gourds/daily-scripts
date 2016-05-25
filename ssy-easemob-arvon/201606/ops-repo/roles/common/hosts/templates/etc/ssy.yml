@@ -1,6 +1,0 @@
-{% for host in inventory.hosts %}
-[{{host.groups}}]
-{{host.name}}
-
-
-{% endfor %}

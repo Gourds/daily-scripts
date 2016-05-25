@@ -1,6 +1,0 @@
-- hosts: zookeeper
-  user: easemob
-  sudo: yes
-  gather_facts: yes
-  roles:
-    - services/zookeeper

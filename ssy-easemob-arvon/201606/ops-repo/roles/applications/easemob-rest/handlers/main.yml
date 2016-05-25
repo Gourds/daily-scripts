@@ -1,3 +1,0 @@
----
-- name: restart easemob-rest
-  monit: name=easemob-rest state=restarted

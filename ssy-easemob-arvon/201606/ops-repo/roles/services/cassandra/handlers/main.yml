@@ -1,2 +1,0 @@
-- name: restart cassandra
-  command: monit restart cassandra

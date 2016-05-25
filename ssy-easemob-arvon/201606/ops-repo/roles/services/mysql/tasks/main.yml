@@ -1,2 +1,0 @@
-- include: mysql_server.yml
-  when: is_install_mysql_server

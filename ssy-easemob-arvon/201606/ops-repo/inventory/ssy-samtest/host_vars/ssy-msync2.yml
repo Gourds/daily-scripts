@@ -1,8 +1,0 @@
-hostname: ssy-msync2
-monit_ipaddr: "{{ hostname }}"
-machineid: 902
-platformname: ssy
-
-
-
-

@@ -1,4 +1,0 @@
-dependencies:
-   - monitor/monit
-   - common/easemob_repo
-   - applications/easemob-profile

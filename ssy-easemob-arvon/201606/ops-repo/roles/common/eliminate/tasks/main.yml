@@ -1,6 +1,0 @@
-- name: Remove rpm package
-  command: /bin/rm -f `/bin/find / -name *.rpm`
-
-
-- name: Remove rpm repo
-  command: /bin/rm -f /etc/yum.repos.d/easemob*

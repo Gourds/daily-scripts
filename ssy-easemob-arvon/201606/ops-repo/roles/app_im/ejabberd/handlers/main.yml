@@ -1,5 +1,0 @@
-- name: stop ejabberd
-  monit: name=ejabberd state=stopped
-
-- name: start ejabberd
-  monit: name=ejabberd state=started

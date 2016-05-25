@@ -1,6 +1,0 @@
-- hosts: dbservers
-  user: easemob
-  sudo: yes
-  gather_facts: yes
-  roles:
-    - services/cassandra

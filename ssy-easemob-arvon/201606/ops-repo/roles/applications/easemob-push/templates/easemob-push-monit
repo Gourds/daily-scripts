@@ -1,4 +1,0 @@
-check process easemob-{{ profile.service_name }} with pidfile /data/apps/var/usergrid/easemob-{{ profile.service_name }}.pid
-  start program "/data/apps/config/easemob-{{ profile.service_name }}/start.sh" as uid "easemob" and gid "easemob"
-  stop program "/data/apps/config/easemob-{{ profile.service_name }}/stop.sh" as uid "easemob" and gid "easemob"
-  if 5 restarts within 5 cycles then timeout

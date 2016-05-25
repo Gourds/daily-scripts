@@ -1,3 +1,0 @@
----
-- name: restart zookeeper
-  monit: name=zookeeper state=restarted

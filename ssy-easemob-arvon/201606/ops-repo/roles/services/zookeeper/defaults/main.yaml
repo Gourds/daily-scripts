@@ -1,6 +1,0 @@
-zookeeper:
-  packages:
-    - easemob-zookeeper
-
-zookeeper_id: 1
-zookeeper_hostname: "{{hostname}}"

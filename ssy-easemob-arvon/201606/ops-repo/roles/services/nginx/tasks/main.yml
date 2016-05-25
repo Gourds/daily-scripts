@@ -1,7 +1,0 @@
----
-- name: Install easemob nginx packages
-  yum: name={{item}} state=latest 
-  with_items: packages
-
-- name: Enabled the nginx service
-  service: name=nginx state=started enabled=yes

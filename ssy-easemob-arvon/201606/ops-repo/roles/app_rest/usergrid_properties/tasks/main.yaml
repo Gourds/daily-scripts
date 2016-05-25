@@ -1,8 +1,0 @@
----
-- name: Install the package easemob-usergrid-propertise
-  yum: name=easemob-usergrid-propertise state=latest
-
-- name: Put on the usergrid propertise files
-  template: src={{item.src}} dest={{item.dest}} owner=easemob group=easemob mode={{item.mode}}
-  with_items:
-  - { src: 'data/apps/config/usergrid/usergrid-custom.properties', dest: '/data/apps/config/usergrid/usergrid-custom.properties', mode: 755 }

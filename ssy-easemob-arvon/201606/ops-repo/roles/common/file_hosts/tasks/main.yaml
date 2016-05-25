@@ -1,3 +1,0 @@
----
-- name: Copy file /etc/hosts
-  copy: src=etc/hosts dest=/etc/hosts owner=root group=root mode=0644

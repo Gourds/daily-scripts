@@ -1,6 +1,0 @@
----
-- name: restart easemob-push
-  monit: name=easemob-push state=restarted
-
-- name: restart easemob-rest
-  monit: name=easemob-rest state=restarted

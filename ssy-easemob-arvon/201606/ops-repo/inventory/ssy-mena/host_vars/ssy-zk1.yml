@@ -1,6 +1,0 @@
-#common
-hostname: ssy-zk1
-
-#zookeeper
-zookeeper_id: 1
-zookeeper_hostname: "ssy-zk1"

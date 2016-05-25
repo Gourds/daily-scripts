@@ -1,7 +1,0 @@
-{% for hostgroup in inventory.hosts|groupby('group') %}
-[{{hostgroup.group}}]
-{% for host in hostgroup.group %}
-{{host.name}}
-{% endfor %}
-
-{% endfor %}

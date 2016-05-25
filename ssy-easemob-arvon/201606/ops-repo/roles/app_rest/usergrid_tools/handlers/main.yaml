@@ -1,3 +1,0 @@
----
-- name: restart usergrid-tools
-  command: monit restart usergrid-tools

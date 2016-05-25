@@ -1,6 +1,0 @@
----
-- name: Stop the service ntpd
-  service: name=ntpd state=stopped enabled=no
-
-- name: Set the ntp time sync cron job
-  template: src=etc/cron.d/ntp dest=/etc/cron.d/ntp owner=root group=root mode=644

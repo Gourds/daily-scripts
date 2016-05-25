@@ -1,8 +1,0 @@
-yum:
-  packages:
-  - createrepo
-  
-yumrepo:
-  file: "ssy201507"
-  addr: "{{ ansible_eth0.ipv4.address }}"
-  

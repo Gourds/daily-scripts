@@ -1,5 +1,0 @@
-gmond:
-  group_name: pro4-aws-ca-storm
-  group_node:
-    host: pro4-aws-ca-log
-    port: 8671

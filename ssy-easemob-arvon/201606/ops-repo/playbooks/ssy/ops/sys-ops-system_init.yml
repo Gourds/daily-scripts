@@ -1,7 +1,0 @@
----
-- hosts: ssy-ops
-  user: root
-  sudo: yes
-  gather_facts: yes
-  roles:
-    - ops/system_init

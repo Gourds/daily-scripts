@@ -1,8 +1,0 @@
----
-- hosts: turn
-  user: easemob
-  sudo: yes
-  gather_facts: yes
-  roles:
-    - monitor/monit
-    - applications/turnserver

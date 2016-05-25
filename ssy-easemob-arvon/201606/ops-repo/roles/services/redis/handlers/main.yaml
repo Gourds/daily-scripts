@@ -1,6 +1,0 @@
----
-- name: restart redis
-  monit: name=redis state=restarted
- 
-- name: restart redis-slave
-  monit: name=redis-slave state=restarted

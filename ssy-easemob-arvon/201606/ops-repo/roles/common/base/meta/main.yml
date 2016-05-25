@@ -1,7 +1,0 @@
-dependencies:
-#   - common/selinux
-   - common/hostname
-   - common/easemob_repo
-   - common/easemob_user
-   - common/easemob_ssh
-   - common/motd
