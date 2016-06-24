@@ -1,4 +1,11 @@
 #!/bin/sh
+######################################
+#Author: arvon
+#Email: yafeng2011@126.com
+#Date: 1605
+#Version: 2.0
+#Todo: update to use awk statistic log
+#####################################
 #---------Ready----------------------
 countFile=$1
 if [ ! $1 ];then

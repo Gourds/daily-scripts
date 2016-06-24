@@ -7,16 +7,16 @@
 #Version: 1.0
 ##################################################
 #----vars----
-AppServer='a1.ssy.muper.net'
-EjaServer='im-api.ssy.muper.net'
-AppKey='mena/chat'
-GroupKey='mena/chat'
-UserName='201'
-Passwd='666666'
-TestToken='YWMtdHF5ZjkPEeaZH9-s2kRhBgAAAVaxCDxyMZEAPTbkifnO9n3h-QPEDBgBq7w'
+AppServer='xxx'
+EjaServer='xxx'
+AppKey='xxx'
+GroupKey='xxx'
+UserName='xxx'
+Passwd='xxx'
+TestToken='xxx'
 #---local vars for module token---
-UserNameToken='admin'
-UserNamePass='Easemob2015'
+UserNameToken='xxx'
+UserNamePass='xxx'
 #---Scripts---
 case "$1" in
 "token" )
@@ -35,7 +35,7 @@ echo "\n"
 curl -XGET "http://${AppServer}/${AppKey}/users/${UserName}/status" -H "Authorization:Bearer ${TestToken}"
 echo "\n"
 ;;
-"users" )
+"check-users" )
 #echo "Now check users"
 curl -XGET "http://${AppServer}/${AppKey}/users?limit=200" -H "Authorization:Bearer ${TestToken}"
 echo "\n"
@@ -76,7 +76,7 @@ echo "Usage: $0 chat your_message"
 fi
 ;;
 * )
-echo "Usage: $0 {token|status|users|count|chat|check-group|create-group}"
+echo "Usage: $0 {token|status|check-users|count|chat|check-group|create-group}"
 exit 2
 ;;
 esac

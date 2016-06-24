@@ -1,6 +1,13 @@
 #!/bin/sh
+#####################################
+#Author: arvon
+#Email: yafeng2011@126.com
+#date:201605
+#Todo: split and statistics log with for
+#Version: 1.0
+####################################
 #---------Ready----------------------
-countFile=mserver_20160525.log
+countFile=xxx.log
 tmp_file_name=arvon_tmp_file
 where_result=result_file_arvon
 

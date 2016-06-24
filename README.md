@@ -9,3 +9,7 @@
 - 20160513
 	* update: base scripts incloud ansible playbook
 	
+- 20160624
+	* tidy directory
+	* Add statistic log scripts
+	* Add zabbix install scripts
