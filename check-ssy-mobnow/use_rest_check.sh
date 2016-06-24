@@ -13,7 +13,7 @@ AppKey='xxx'
 GroupKey='xxx'
 UserName='xxx'
 Passwd='xxx'
-TestToken='xxx'
+TestToken=xxx
 #---local vars for module token---
 UserNameToken='xxx'
 UserNamePass='xxx'
@@ -21,9 +21,11 @@ UserNamePass='xxx'
 case "$1" in
 "token" )
 #echo "Now take token"
-curl -X POST -i  "http://${AppServer}/management/token" -d '{"grant_type":"password","username":"'${UserNameToken}'","password":"'${UserNamePass}'"}'
-echo "\n"
-;;
+EachToken=`curl -s -X POST -i  "http://${AppServer}/management/token" -d '{"grant_type":"password","username":"'${UserNameToken}'","password":"'${UserNamePass}'"}' |sed -n '$p' | awk -F'"' '{print $4}'`
+sed -i "s/^TestToken=.*$/TestToken=$EachToken/" $0 >/dev/null
+echo "Token:  ${EachToken}"
+;;       
+
 "create-user" )
 #echo "Now take token"
 curl -X POST -i  "http://${AppServer}/${AppKey}/users" -d '{"username":"'${UserName}'","password":"'${Passwd}'"}' -H "Authorization:Bearer ${TestToken}"
