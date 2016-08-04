@@ -20,7 +20,7 @@ write_redis
 write_zookeeper
 write_kafka
 write_mysql
-#write_rest
+write_rest
 write_thrift
 write_push
 write_ejabberd
