@@ -5,27 +5,33 @@
 #Email: yafeng2011@126.com
 #Blog: http://arvon.top/
 #Date: 2016/08/04
-#Filename: excel_write_inventory.py
+#Filename: testwrite.py
 #Revision: 1.0
 #License: GPL
 #Description: use xlrd module auto create vars and file for ansible
 #Notes:
 ###############################################################################
-import os
-from mmap import mmap,ACCESS_READ
 from xlrd import open_workbook
-#vars
-inventory_path = './'
-inventory_file = 'inventory-list.yml'
-excel_file = 'test.xlsx'
 
-#var define
+#input vars
+excel_file = 'test.xlsx'
+#input the excel file path
+inventory_path = './'
+#input the inventory file dir path
+ops_dir_path = '/data/ps/ops-repo'
+#input the ops-repo dir path
+inventory_file = 'inventory-list.yml'
+#input the ansible's inventory filename
+inventory_name = 'ssy'
+
+#define vars
 data = open_workbook(excel_file)
 table = data.sheets()[0]
+#open the excel first sheets
 nrows = table.nrows
-ncols = table.ncols
+#nrows is the tables line numbers
 
-#functions list
+#functions
 #write title to inventory file
 def write_title():
     f = open(inventory_path + inventory_file, 'w')
@@ -36,11 +42,13 @@ inventory:
   name: ssy
   hosts:
 '''
-    f.write(input_msg)
+    f.write('host_ops_path: ' + ops_dir_path + '\n')
+    f.write('inventory:' + '\n')
+    f.write('  name: ' + inventory_name + '\n')
+    f.write('  hosts:' + '\n')
     f.close
-#write redis hosts
+#write all hosts
 def write_hosts(row_num,host_name,group_name,host_num = 1):
-#    print db_list
     for each_line_num in range(nrows):
         each_line = table.row_values(each_line_num)
         if each_line[row_num] == 1:
