@@ -5,8 +5,8 @@
 #Email: yafeng2011@126.com
 #Blog: http://arvon.top/
 #Date: 2016/08/04
-#Filename: testwrite.py
-#Revision: 1.0
+#Filename: excel_write_inventory.py
+#Revision: 1.1
 #License: GPL
 #Description: use xlrd module auto create vars and file for ansible
 #Notes:
