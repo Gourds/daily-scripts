@@ -18,10 +18,10 @@ IP_list="
 172.17.18.62
 172.17.18.63
 "
-#functions
+functions
 function Main(){
-#install_expect_package
-#create_ras_pub
+install_expect_package
+create_ras_pub
 write_authorized_file
 }
 #install expect package

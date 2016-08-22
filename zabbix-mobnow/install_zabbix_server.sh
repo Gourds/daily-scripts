@@ -80,9 +80,9 @@ mysql -uroot -p${mysql_root_password} -e "flush privileges;" >> ${zabbix_log_fil
 function install_zabbix_server(){
 echo "Now install zabbix server package..."
 echo "Now install zabbix server package..." >> ${zabbix_log_file}
-yum -y install zabbix-server-mysql zabbix-web-mysql zabbix-get -y >> ${zabbix_log_file} 2>&1
+yum install zabbix-server-mysql zabbix-web-mysql zabbix-get -y >> ${zabbix_log_file} 2>&1
 cd /usr/share/doc/zabbix-server-mysql-3.0.3/
-zcat create.sql.gz | mysql -uroot -padmin zabbix
+zcat create.sql.gz | mysql -uroot -p${mysql_root_password} zabbix
 }
 
 function modify_zabbix_server_config(){
