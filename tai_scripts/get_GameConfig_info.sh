@@ -13,10 +13,10 @@
 # Vars
 source_etcd_dir=~/Documents/Tai_gitlab/yingxiong-etcd/
 source_env_dir=~/Documents/Tai_gitlab/yingxiong-ansible/envs/vpc_yingxiong/
-result_dir=/Users/arvon/arvon-scripts/tai_scripts/
+result_dir=/Users/arvon/Documents/Tai_gitlab/arvon-scripts/tai_scripts/
 # get etcd config
 #printf {printf "%-35s %-35s %-35s %-35s  %-35s %-35s %-35s %-35s %-35\n" "gid","shard_id","listen","redis","redis_auth","redis_db","rank_redis","rank_redis_db","merge_rel"} > ${result_dir}result.txt
-echo '"gid"	"shard_id"	"listen"	"redis"	"redis_auth"	"redis_db"	"rank_redis"	"rank_redis_db"    "merge_rel"' > ${result_dir}result.txt
+echo '"gid"    "shard_id"    "listen"    "redis"    "redis_auth"    "redis_db"    "rank_redis"    "rank_redis_db"    "merge_rel"' > ${result_dir}result.txt
 for each_area in `ls ${source_etcd_dir}`;do
     if [ -d "${source_etcd_dir}${each_area}" -a  ${each_area:0:2} == 20 ];then
         for each_region in `ls ${source_etcd_dir}/${each_area}`;do

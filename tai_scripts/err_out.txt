@@ -1,1 +1,0 @@
-get_GameConfig_info.sh: line 23: [: multiplay_channel: integer expression expected
