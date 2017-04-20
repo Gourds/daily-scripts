@@ -12,9 +12,9 @@
 ###############################################################################
 
 #vars
-username_mon='mongouser'
-password_mon='eqYofW34E6zH'
-address_mon='10.30.4.150:27017'
+username_mon='xxxx'
+password_mon='xxxx'
+address_mon='xx.xx.xx.xx:port'
 mongo_tools_dir='./'
 export_dir='./json'
 
