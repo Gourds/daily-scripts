@@ -1,11 +1,11 @@
 ```python
-#!/usr/bin/python
+#!/bin/python
 # -*- coding:utf-8 -*-
 ###############################################################################
 #Author: arvon
-#Email: yafeng2011@126.com 
+#Email: yafeng2011@126.com
 #Blog: http://blog.arvon.top/
-#Date: 
+#Date:
 #Filename:
 #Revision: 1.0
 #License: GPL
@@ -41,7 +41,7 @@ PEP8 Python 编码规范
         注释必须使用英文，最好是完整的句子，首字母大写，句后要有结束符，结束符后跟两个空格，开始下一句。如果是短语，可以省略结束符。
 1 块注释，在一段代码前增加的注释。在‘#’后加一空格。段落之间以只有‘#’的行间隔。比如：
 # Description : Module config.
-# 
+#
 # Input : None
 #
 # Output : None
