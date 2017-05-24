@@ -1,0 +1,19 @@
+---
+#source init_dev.sh
+- hosts: localhost
+  connection: local
+  gather_facts: True
+  tasks:
+    - name: ec2 instance facts
+      ec2_remote_facts:
+        region: cn-north-1
+        filters:
+          instance-state-name:  running
+      register: ec2
+    - set_fact: ec2_out={{ ec2 }}
+#    - debug: var=ec2_out.instances[1].private_ip_address
+#    - debug: var=ec2_out.instances.0.private_ip_address
+#    - debug: msg="{{ item.0.private_ip_address }} and {{item.0.tags.Name}}"
+    - shell: echo "{{ item.0.private_ip_address }}"  "{{item.0.tags.Name}}" >> sss.txt
+      with_together:
+        - "{{ ec2_out.instances }}"
