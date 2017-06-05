@@ -1,7 +1,7 @@
 ---
 title: xxxx
-date: 2017-05-24 
-tags: [运维工具,AWS]
+date: 2017-05-24
+tags: [运维工具,云服务]
 ---
 ...
 <!--more-->
@@ -16,6 +16,7 @@ tags: [运维工具,AWS]
 	- 随笔
 	- 读书
 	- 正则
+	- 云服务
 	- 系统原理
   - 网络协议
   - 网络安全
@@ -33,7 +34,6 @@ tags: [运维工具,AWS]
 	- Linux
 	- Docker
 	- Jenkins
-	- AWS
 	- Mysql
   - Nosql
   - ELK
