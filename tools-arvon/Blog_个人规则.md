@@ -25,12 +25,14 @@ tags: [运维工具,云服务]
 	- 运维工具
   - 知识管理
   - 版本控制
+	- 踩坑指南
 	- 其他OS
   - Hexo
 	- Python
 	- Shell
 	- Ansible
 	- Zabbix
+	- falcon
 	- Nginx
 	- Linux
 	- Docker
