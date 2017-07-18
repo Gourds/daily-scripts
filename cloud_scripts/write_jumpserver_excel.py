@@ -15,12 +15,12 @@ import os
 import openpyxl
 #vars
 port='22'
-host_group='xxx'
+host_group='aws_cn_online'
 aws_access_id='xxx'
 aws_secret_id='xxx'
 #create_file_script='create-host.yml'
 server_file_name='./running_ec2_list.txt'
-dest_filename = 'asset_cn_dev.xlsx'
+dest_filename = 'asset_cn_online.xlsx'
 
 ##functions
 def create_server_file():
