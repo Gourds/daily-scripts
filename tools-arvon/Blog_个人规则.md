@@ -18,6 +18,7 @@ tags: [运维工具,云服务]
 	- 正则
 	- 云服务
 	- 运维架构
+	- 运维监控
 	- 系统原理
   - 网络协议
   - 网络安全
@@ -32,7 +33,8 @@ tags: [运维工具,云服务]
 	- Shell
 	- Ansible
 	- Zabbix
-	- falcon
+	- Falcon
+	- Grafana
 	- Nginx
 	- Linux
 	- Docker
