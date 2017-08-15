@@ -40,5 +40,8 @@ tags: [运维工具,云服务]
 	- Docker
 	- Jenkins
 	- Mysql
+	- Redis
   - Nosql
+	- Docker
+	- Hadoop
   - ELK
