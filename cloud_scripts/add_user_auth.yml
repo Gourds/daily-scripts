@@ -1,0 +1,24 @@
+- hosts: qa-hmt
+  remote_user: ec2-user
+  gather_facts: True
+  become: yes
+  tasks:
+    - name: create-taiyouxi
+      user:
+        name: taiyouxi
+    - name: add ssh path
+      file:
+        path: /home/taiyouxi/.ssh/
+        state: directory
+        mode: 0755
+    - name: add auth file
+      file:
+        path: /home/taiyouxi/.ssh/authorized_keys
+        owner: taiyouxi
+        group: taiyouxi
+        state: touch
+        mode: 0644
+    - name: add ssh-key to hosts
+      lineinfile:
+        destfile : /home/taiyouxi/.ssh/authorized_keys
+        line: 'ssh-rsa A'
