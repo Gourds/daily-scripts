@@ -3,7 +3,7 @@
 shardid=$1
 result_dir="gamex_${shardid}_`date +%Y%m%d%M%S`"
 function check_go_env(){
-if command -v git >/dev/null 2>&1; then
+if command -v go >/dev/null 2>&1; then
   echo 'exists go'
 else
   echo 'no exists go,now install it'
