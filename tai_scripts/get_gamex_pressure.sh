@@ -7,12 +7,12 @@ if command -v go >/dev/null 2>&1; then
   echo 'exists go'
 else
   echo 'no exists go,now install it'
-  yum install golang.x86_64 -y
+  yum install golang.x86_64 graphviz -y
 fi
 }
 function run_dev_command(){
 if [ -d ${result_dir} ];then
-  rm -rf ${result_dir}
+  rm -rf ${result_dir%_*}
   mkdir -p /tmp/${result_dir}
 else
   mkdir -p /tmp/${result_dir}
