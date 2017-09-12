@@ -1,0 +1,15 @@
+---
+- name: set starting up with service rpcbind and nfs
+  command: chkconfig rpcbind on
+  
+- name: start rpcbind service
+  service: name=rpcbind state=restarted
+
+- name: mount nfs
+  mount:
+    name: /data/deploy
+    src: "{{ nfs_server_address }}"
+    fstype: nfs4
+    opts: rw
+    fstab: /etc/fstab
+    state: mounted

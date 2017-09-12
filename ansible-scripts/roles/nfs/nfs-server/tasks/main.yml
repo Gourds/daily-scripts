@@ -1,0 +1,29 @@
+---
+- name: install nfs pkg
+  yum: name=nfs-utils state=present
+
+- name: set starting up with service rpcbind and nfs
+  command: chkconfig rpcbind on
+  
+- command: chkconfig nfs on
+
+- name: create /data/ops_nfs dir
+  file: 
+      path: /data/ops_nfs/deploy
+      state: directory
+      owner: nfsnobody
+      group: nfsnobody
+      mode: 0755
+
+- name: modify exports config 
+  template: src=exports.j2 dest=/etc/exports 
+
+- name: start nfs service
+  service: name=rpcbind state=restarted
+
+- service: name=nfs state=restarted
+
+#- name: debug rpc result
+#  command: rpcinfo -p
+#  command: exportfs
+

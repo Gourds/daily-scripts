@@ -1,0 +1,2 @@
+ip_range: "10.17.0.0/24"
+nfs_server_address: "10.17.0.219:/data/ops_nfs/deploy"
