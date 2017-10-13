@@ -1,0 +1,25 @@
+- name: remove old jdk
+  yum: name=java* state=absent
+
+- name: install jave env 1.8
+  yum: name={{ item }} state=present
+  with_items:
+    - java-1.8.0
+    - ant.noarch
+
+- name: download maven tar.gz and unarchive(version=3.5.0)
+  unarchive:
+    src: http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.zip
+    dest: /opt
+    remote_src: yes
+
+- name: download etcd-view tar.gz and unarchive(version=1.1)
+  unarchive:
+    src: https://github.com/nikfoundas/etcd-viewer/archive/v1.1.zip
+    dest: /opt
+    remote_src: yes
+
+- name: Installing pom.xml to /root/.m2/etcd-viewer-1.1.pom
+  command: /opt/apache-maven-3.5.0/bin/mvn clean install
+  args:
+    chdir: /opt/etcd-viewer-1.1

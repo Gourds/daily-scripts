@@ -1,0 +1,22 @@
+---
+- name: use pip install supervisor
+  pip: name=supervisor version="3.3.0" state=present
+
+- name: command create supervisor config file
+  command: /usr/local/bin/echo_supervisord_conf > /etc/supervisord.conf
+
+- name: copy and replace supervisor start config
+  template: src=supervisord.conf.j2 dest=/etc/supervisord.conf owner=root group=root mode=0644
+
+- name: create supervisor workspace
+  file: path={{ item }} state=directory recurse=yes mode=0755
+  with_items:
+    - /etc/supervisord/conf.d
+    - /opt/supervisor/log
+
+- name: copy supervisor start scripts to /etc/init.d
+  template: src=supervisord.j2 dest=/etc/init.d/supervisor mode=0700
+
+- name: start supervisor service
+  service: name=supervisor state=started enabled=yes
+  ignore_errors: True

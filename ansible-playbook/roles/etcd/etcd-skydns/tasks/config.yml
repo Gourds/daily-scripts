@@ -1,0 +1,11 @@
+- name: copy skydns supervisor config
+  template:
+    src: supervisor_skydns.conf.j2
+    dest: /etc/supervisord/conf.d/skydns.conf
+    mode: 0644
+
+- name: init skydns
+  shell: bash -c "cat /tmp/dns_init.json  | /usr/local/bin/etcdctl mk /skydns/config"
+
+- name: restart supervisor
+  service: name=supervisor state=restarted

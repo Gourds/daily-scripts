@@ -1,0 +1,10 @@
+- name: copy supervisor manage config
+  template: src=supervisor_etcd_view.conf.j2  dest=/etc/supervisord/conf.d/etcd-viewer.conf
+
+- name : restart supervisor
+  service:  name=supervisor state=restarted
+
+- name: start etcd-viewer
+  supervisorctl:
+    name: etcd_viewer
+    state: started

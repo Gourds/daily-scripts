@@ -4,21 +4,8 @@ import redis
 
 redis_auth='xxx'
 redis_server_list=[
-#'10.33.4.171',
-'10.33.4.172',
-#'10.33.4.173',
-'10.33.4.174',
-#'10.33.4.175',
-#'10.33.4.176',
-#'10.33.4.177',
-#'10.33.4.178',
-#'10.33.4.179',
-#'10.33.4.180',
-'10.33.4.181',
-'10.33.4.182',
-'10.33.4.183',
-'10.33.4.184',
-'10.33.4.185',
+'10.12.34.171',
+'10.12.34.172',
 ]
 def redis_use_status(host_name,password=redis_auth,redis_port=6379):
     m_redis=redis.StrictRedis(host=host_name,password=redis_auth,port=redis_port)

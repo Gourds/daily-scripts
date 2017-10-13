@@ -10,10 +10,10 @@
         filters:
           instance-state-name:  running
       register: ec2
-    - set_fact: ec2_out={{ ec2 }}
-#    - debug: var=ec2_out.instances[1].private_ip_address
-#    - debug: var=ec2_out.instances.0.private_ip_address
+#    - debug: var=ec2.instances[1].private_ip_address
+#    - debug: var=ec2.instances.0.private_ip_address
 #    - debug: msg="{{ item.0.private_ip_address }} and {{item.0.tags.Name}}"
-    - shell: echo "{{ item.0.private_ip_address }}"  "{{item.0.tags.Name}}" >> sss.txt
+    - shell: rm -rf running_ec2_list.txt
+    - shell: echo "{{ item.0.private_ip_address }}"  "{{item.0.tags.Name}}" >> running_ec2_list.txt
       with_together:
-        - "{{ ec2_out.instances }}"
+        - "{{ ec2.instances }}"

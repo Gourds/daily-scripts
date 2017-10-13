@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#check your API version
+etcdctl --version
+function v2(){
+API2
+#backup
+# etcdctl backup --data-dir /home/etcd/ --backup-dir /home/etcd_backup
+#Recover
+# etcd -data-dir=/home/etcd_backup/  -force-new-cluster
+#恢复时会覆盖 snapshot 的元数据(member ID 和 cluster ID)，所以需要启动一个新的集群。
+}
+
+
+
+function v3(){
+API3
+export ETCDCTL_API=3
+etcdctl --endpoints localhost:2379 snapshot save snapshot.db
+#backup
+etcdctl snapshot restore snapshot.db --name m3 --data-dir=/home/etcd_data
+#recover
+#恢复后的文件需要修改权限为 etcd:etcd
+#--name:重新指定一个数据目录，可以不指定，默认为 default.etcd
+#--data-dir：指定数据目录
+#建议使用时不指定 name 但指定 data-dir，并将 data-dir 对应于 etcd 服务中配置的 data-dir
+}

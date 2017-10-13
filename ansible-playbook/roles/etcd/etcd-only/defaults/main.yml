@@ -1,0 +1,7 @@
+etcd_pkg_url: github.com/coreos/etcd/releases/download/v3.2.7/etcd-v3.2.7-linux-amd64.tar.gz
+etcd_install_dir: /opt/etcd
+etcd_data_dir: /opt/etcd/etcd-data
+etcd_backup_dir: /data/etcd_backup
+etcd_cluster_token: etcd-cluster-arvon
+etcd_core_group: ""
+init_etcd_cluster_new: true

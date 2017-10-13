@@ -1,0 +1,23 @@
+- name: create install dir
+  file: path={{ etcd_install_dir }} state=directory owner=root mode=0755
+
+- name: create etcd data dir
+  file: state=directory mode=644 path={{ etcd_data_dir }}
+
+# - name: download etcd pkg form URL and uncompress
+# # use remote src need ansible version is above 2.2
+#   unarchive:
+#     src: https://github.com/coreos/etcd/releases/download/v3.2.7/etcd-v3.2.7-linux-amd64.tar.gz
+#     dest: /opt/etcd/
+#     remote_src: yes
+#   async: 0
+
+- name: add etcd command to bin dir
+  copy:
+    src: /opt/etcd/etcd-v3.2.7-linux-amd64/{{ item }}
+    dest: /usr/local/bin/{{ item }}
+    mode: 0755
+    remote_src: yes
+  with_items:
+    - etcd
+    - etcdctl

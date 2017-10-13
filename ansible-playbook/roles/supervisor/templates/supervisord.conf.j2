@@ -1,0 +1,26 @@
+[unix_http_server]
+file = /tmp/supervisor.sock
+
+[supervisord]
+logfile = /tmp/supervisord.log
+logfile_maxbytes = 100MB
+logfile_backups = 20
+loglevel = info
+pidfile = /tmp/supervisord.pid
+nodaemon = false
+minfds = 1024
+minprocs = 200
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl = unix:///tmp/supervisor.sock
+
+[include]
+files = /etc/supervisord/conf.d/*.conf
+
+#[inet_http_server]
+#port = 
+#username = 
+#password = 

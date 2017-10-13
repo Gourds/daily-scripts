@@ -1,0 +1,15 @@
+[program:skydns]
+directory=/opt/supervisor/
+#command=/usr/bin/skydns
+#  -addr=0.0.0.0:53
+#  -machines=http://127.0.0.1:2379
+#  -nameservers="":53
+#  -discover=true
+#  -domain="xxx.net."
+command=/usr/local/bin/skydns
+#  -discover=true
+  -machines="{{ etcd_address }}"
+  -verbose=true
+stdout_logfile=/opt/supervisor/log/skydns.log
+user=root
+redirect_stderr=true

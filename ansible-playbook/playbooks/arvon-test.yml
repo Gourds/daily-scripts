@@ -1,0 +1,11 @@
+---
+- hosts: test
+  remote_user: ec2-user
+  gather_facts: yes
+  become: yes
+  become_user: root
+  roles:
+    - supervisor
+    - etcd/etcd-only
+    - etcd/etcd-viewer
+    - etcd/etcd-skydns

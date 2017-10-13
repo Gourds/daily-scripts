@@ -1,0 +1,12 @@
+- name: create backup dir
+  file: path={{ etcd_backup_dir }} state=directory mode=0755
+
+- name: copy backup scripts to etcd dir
+  template: src=etcd_backup.sh.j2  dest={{ etcd_install_dir }}/etcd_backup.sh  owner=root group=root  mode=0755
+
+- name: create cron jobs for backup
+  cron:
+    name: "backup etcd data dir"
+    minute: "0"
+    hour: "1"
+    job: "sh {{ etcd_install_dir }}/etcd_backup.sh"

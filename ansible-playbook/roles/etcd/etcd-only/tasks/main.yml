@@ -1,0 +1,8 @@
+---
+- include: install.yml
+- include: config.yml
+- include: backup.yml
+
+### ---README---
+#1. use ansible version 2.3
+#2. use supervisor manage etcd status

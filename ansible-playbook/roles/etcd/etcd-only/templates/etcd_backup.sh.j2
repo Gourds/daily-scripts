@@ -1,0 +1,8 @@
+#!/bin/sh
+etcd_backup_dir={{ etcd_backup_dir }}
+etcd_data_dir={{ etcd_data_dir }}
+etcd_bin=/usr/local/bin/etcdctl
+time=`date +%y%m%d%H`
+s3=s3://backup-prod/etcd/
+rm -rf ${etcd_backup_dir}/member/
+$etcd_bin backup --data-dir=${etcd_data_dir} --backup-dir=${etcd_backup_dir}${time}

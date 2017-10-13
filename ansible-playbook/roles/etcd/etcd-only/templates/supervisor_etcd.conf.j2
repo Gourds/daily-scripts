@@ -1,0 +1,27 @@
+{% set proto = "http" -%}
+{% set my_ip = ansible_default_ipv4.address -%}
+{% set all_etcd = [] -%}
+{% set core_hosts = play_hosts if etcd_core_group == "" else groups[etcd_core_group] -%}
+{% for host in core_hosts -%}
+  {% set other_ip = hostvars[host]['ansible_default_ipv4']['address'] -%}
+  {% set other_hn = hostvars[host]['ansible_hostname'] -%}
+  {% set _ = all_etcd.append("%s=%s://%s:2380" % (other_hn, proto, other_ip)) -%}
+{% endfor -%}
+[program:etcd]
+directory={{ etcd_data_dir }}
+command=/usr/local/bin/etcd
+  -name {{ ansible_hostname }}
+  --data-dir {{ etcd_data_dir }}
+  -initial-advertise-peer-urls http://{{ my_ip }}:2380
+  -listen-peer-urls http://{{ my_ip }}:2380
+  -listen-client-urls http://{{ my_ip }}:2379,http://127.0.0.1:2379
+  -advertise-client-urls http://{{ my_ip }}:2379
+  -initial-cluster-token {{etcd_cluster_token}}
+  -initial-cluster {{all_etcd|join(',')}}
+{% if init_etcd_cluster_new %}
+  -initial-cluster-state new
+autorestart=false
+{% endif %}
+stdout_logfile=/opt/supervisor/log/etcd.log
+user=root
+redirect_stderr=true

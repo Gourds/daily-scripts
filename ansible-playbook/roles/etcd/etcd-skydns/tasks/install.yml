@@ -1,0 +1,39 @@
+- name: install golang
+  yum: name=golang-1.8.3 state=present
+
+- name: create go path directory
+  file:
+    path: /opt/gocode
+    state: directory
+    mode: 0755
+
+# - name: get skydns src
+#// because the google website can not be access so can not use this methods
+#   shell: go get github.com/skynetservices/skydns
+#   args:
+#     chdir: /opt/gocode
+
+- name: download skydns tar.gz from other website
+  unarchive:
+    src: http://download.openpkg.org/components/cache/skydns/skydns-20170903.tar.gz
+    dest: /opt/gocode
+    remote_src: yes
+
+- name: build skydns
+  shell: go build -v
+  args:
+    chdir: /opt/gocode/skydns/src/github.com/skynetservices/skydns
+  environment:
+    GOPATH: /opt/gocode/skydns
+
+- name: add command skydns to /usr/local/bin
+  copy:
+    src: /opt/gocode/skydns/src/github.com/skynetservices/skydns/skydns
+    dest: /usr/local/bin/
+    remote_src: yes
+    mode: 0755
+
+- name: copy skydns init file to local
+  template:
+    src: dns_init.json
+    dest: /tmp/dns_init.json

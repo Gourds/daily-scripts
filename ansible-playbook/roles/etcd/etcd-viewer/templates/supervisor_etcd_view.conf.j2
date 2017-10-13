@@ -1,0 +1,6 @@
+[program:etcd_viewer]
+directory=/opt/etcd-viewer-1.1/
+command=/opt/apache-maven-3.5.0/bin/mvn jetty:run
+stdout_logfile=/opt/supervisor/log/etcd-viewer.log
+user=root
+redirect_stderr=true
