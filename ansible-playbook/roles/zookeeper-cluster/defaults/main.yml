@@ -1,0 +1,22 @@
+---
+zookeeper_version: zookeeper-3.4.10
+zookeeper_url:  http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz
+pkg_name: zookeeper-3.4.10.tar.gz
+
+install_dir: /usr/local/zookeeper
+data_dir: /var/zookeeper/data
+
+#config
+client_prot: 2181
+tick_time: 2000
+init_limit: 10
+sync_limit: 5
+
+#zookeeper cluster host config
+zookeeper_hosts:
+  - host: '10.36.3.5'
+    id: 1
+  - host: '10.36.3.6'
+    id: 2
+  - host: '10.36.3.7'
+    id: 3

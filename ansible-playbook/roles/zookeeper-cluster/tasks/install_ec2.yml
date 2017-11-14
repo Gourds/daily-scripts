@@ -1,0 +1,51 @@
+#install_env: Amazon Linux AMI release 2017.03
+- name: create zookeeper directory
+  file: path="{{ item }}" state=directory mode=0755
+  with_items:
+    - "{{ install_dir }}"
+    - "{{ data_dir }}"
+  tags:
+    - zk
+
+# - name: download zk package and unarchive
+# #need ansible version >=2.2
+#   unarchive:
+#     src: "{{ zookeeper_url }}"
+#     dest: "{{ install_dir }}"
+#     remote_src: yes
+#   tags:
+#     - pkg
+
+- name: download zk package
+  get_url:
+    url: "{{ zookeeper_url }}"
+    dest: "/tmp/{{ zookeeper_version}}"
+  tags:
+    - pkg
+
+- name: unarchive zk package
+  unarchive:
+    src: "/tmp/{{ pkg_name }}"
+    dest: "{{ install_dir }}/{{ zookeeper_version }}"
+  tags:
+    - zk
+
+- name: copy zookeeper config zoo.cfg
+  template: src=zoo.cfg.j2 dest="{{ install_dir }}/{{ zookeeper_version }}/conf/zoo.cfg"
+  tags:
+    - config
+
+- name: copy zookeeper config myid
+  template: src=myid.j2 dest="{{ data_dir }}/myid"
+  tags:
+    - config
+
+- name: create zookeeper start scritps
+  template: src=start.j2 dest=/etc/rc.d/init.d/zookeeper mode=0755
+  tags:
+    - config
+
+- name: start zookeeper
+  service: name=zookeeper enable=yes state=restarted
+  tags:
+    - config
