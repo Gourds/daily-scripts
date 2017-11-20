@@ -1,0 +1,28 @@
+#Notes
+#make snapshot for ec2 hosts, all host will be make snapshot which run this script.
+- hosts: all
+  remote_user: ec2-user
+  gather_facts: True
+  become: yes
+  vars:
+    region: 'YOUR REGION'
+    aws_access_key: 'YOUR KEY'
+    aws_secret_key: 'YOUR KEY'
+  tasks:
+    - name: Get facts
+      ec2_remote_facts:
+        region: "{{ region }}"
+        filters:
+          instance-state-name:  running
+          network-interface.addresses.private-ip-address: "{{ ansible_default_ipv4.address }}"
+      register: ec2_facts
+    - name: Get timestamp
+      command: date +%Y%m%d_%H%M
+      register: timestamp
+    - name: make snapshots for volume
+      ec2_snapshot:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        volume_id: "{{ ec2_facts.instances[0].block_device_mapping[0].volume_id }}"
+        description: "snapshot time: {{ timestamp.stdout }}"
