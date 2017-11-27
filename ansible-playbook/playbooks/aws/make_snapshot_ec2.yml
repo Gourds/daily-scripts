@@ -12,6 +12,8 @@
     - name: Get facts
       ec2_remote_facts:
         region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
         filters:
           instance-state-name:  running
           network-interface.addresses.private-ip-address: "{{ ansible_default_ipv4.address }}"
@@ -25,4 +27,6 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         volume_id: "{{ ec2_facts.instances[0].block_device_mapping[0].volume_id }}"
-        description: "snapshot time: {{ timestamp.stdout }}"
+        snapshot_tags:
+          Name: "{{ ec2_facts.instances[0].tags.Name }}"
+        description: "snapshot time is {{ timestamp.stdout }}"
