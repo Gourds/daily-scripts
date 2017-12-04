@@ -45,6 +45,7 @@ tags: [运维工具,云服务]
 	- Nginx
 	- Linux
 	- Docker
+	- Kubernetes
 	- Jenkins
 	- Mysql
 	- Redis
