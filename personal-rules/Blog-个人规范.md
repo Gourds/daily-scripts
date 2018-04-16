@@ -50,7 +50,6 @@ tags: [运维工具,云服务]
 	- Mysql
 	- Redis
   - Nosql
-	- Docker
 	- Hadoop
   - ELK
 	- Flask
