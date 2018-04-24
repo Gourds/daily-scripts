@@ -100,7 +100,9 @@ def regist_api_etcd(api_version, m_key,m_value):
         except ImportError as e:
             print 'Line %s Make sure install etcd3 module' %(sys._getframe().f_lineno)
             exit(7)
-
+        except Exception as e:
+            print 'Line %s Error can not write key to etcd' % sys._getframe().f_lineno
+            exit(7)
 
 if __name__ == '__main__':
     get_regist_file()
