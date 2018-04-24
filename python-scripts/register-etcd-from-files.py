@@ -88,16 +88,18 @@ def regist_api_etcd(api_version, m_key,m_value):
             requests.put('http://%s:2379/%s/keys%s' % (etcdhost, etcd_api_version, m_key), data={'value': m_value})
         except requests.exceptions.ConnectionError as e:
             print 'Line %s Error Check Address: %s' % (sys._getframe().f_lineno, etcdhost)
+            exit(7)
     elif api_version == 'v3':
         try:
             import etcd3
             client = etcd3.client(host=etcdhost, port=2379)
             client.put(m_key, m_value)
         except AttributeError as e:
-            print 'Line 97 Please check the address %s' % (etcdhost)
+            print 'Line %s Please check the address %s' % (sys._getframe().f_lineno,etcdhost)
             exit(7)
         except ImportError as e:
-            print 'Make sure install etcd3 module'
+            print 'Line %s Make sure install etcd3 module' %(sys._getframe().f_lineno)
+            exit(7)
 
 
 if __name__ == '__main__':
