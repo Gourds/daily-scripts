@@ -76,7 +76,7 @@ def get_file_value(file_path):
             elif '=' in each_line:
                 line_key = each_line.split('=')[0]
                 if each_line.split('=')[1]:
-                    line_value = each_line.split('=')[1]
+                    line_value = each_line.split('=')[1].strip()
                 else:
                     line_value = 'Null'
                 print os.path.join(etcddir,file_path,line_key),line_value
