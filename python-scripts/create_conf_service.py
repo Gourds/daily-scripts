@@ -1,5 +1,8 @@
+###############################################################################
+#Author: arvon
+#Email: yafeng2011@126.com
 #Date: 2018-06-13
-#Filename: gate_conf.py
+#Filename: create_conf_service.py
 ###############################################################################
 import requests
 import argparse
