@@ -1,5 +1,3 @@
-#Author: arvon
-#Email: yafeng2011@126.com
 #Date: 2018-06-13
 #Filename: gate_conf.py
 ###############################################################################
@@ -27,7 +25,8 @@ class write_conf:
         self.redis_host = etcd_info[2]
         self.redis_num = etcd_info[3]
     def write(self):
-        with open(self.out_dir, 'a+') as f1:
+        config_file = self.redis_host + '.conf'
+        with open(config_file.replace('.', '-', 3).replace(':', '_') , 'a+') as f1:
             f1.write('[[DBInfo]]' + '\n')
             f1.write('shard = %s' % self.shardID + '\n')
             f1.write('merge = %s' % self.mergeRel + '\n')
@@ -37,11 +36,17 @@ class write_conf:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(argument_default=argparse.SUPPRESS)
+    parser.add_argument('-g', '--gid', default=False, dest='gid', required=True, help='Input GID number')
     parser.add_argument('-b', '--begin', type=int, default=False, dest='begin', required=True, help='Input a number to begin loop, like 1001')
     parser.add_argument('-e', '--end', type=int, default=False, dest='end', required=True, help='Input a number to stop loop, like 1999')
     args = parser.parse_args()
 
-    if args.begin and args.end:
-        v2_data = etcd_v2('address', '8004', '/taiyouxi', '105')
-        for each_num in range(int(args.begin), int(args.end)):
+    # if args.begin and args.end and args.:
+    v2_data = etcd_v2('host', '2379', '/SL200', args.gid)
+    write_record = []
+    for each_num in range(int(args.begin), int(args.end)):
+        ready_write = v2_data.get_gm_data_info(each_num)
+#    print each_num, type(each_num)
+        if str(each_num).decode() not in write_record:
             write_conf(v2_data.get_gm_data_info(each_num),'haha.conf').write()
+            write_record = write_record + ready_write[1].split(',')
