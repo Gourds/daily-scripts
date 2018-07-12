@@ -21,24 +21,32 @@ import argparse
 
 class qiniu():
     def __init__(self):
-        self.access_key = "your key"
-        self.secret_key = "your key"
-        self.mdomain = "your domain"
+        self.access_key = "AK"
+        self.secret_key = "SK"
+        self.mdomain = "YourDomain"
         self.mauth = Auth(self.access_key, self.secret_key)
     def upload(self, upload_dir, upload_bucket):
         if os.path.isdir(upload_dir):
-            up_file_list = []
-            for root, dirs, files in os.walk(upload_dir,topdown=True):
-                for v_file in files:
-                    up_file_list.append(os.path.join(root, v_file))
-            for file_name in up_file_list:
+            if os.path.isdir(upload_dir):
+                up_file_list = []
+                for root, dirs, files in os.walk(upload_dir,topdown=True):
+                    for v_file in files:
+                        up_file_list.append(os.path.join(root, v_file))
+                for file_name in up_file_list:
+                    token = self.mauth.upload_token(upload_bucket, file_name)
+                    ret, info = put_file(token, file_name, file_name)
+                    # print(info)
+                    assert ret['key'] == file_name
+                    assert ret['hash'] == etag(file_name)
+                    print ret
+            elif os.path.isfile(upload_dir):
                 token = self.mauth.upload_token(upload_bucket, file_name)
                 ret, info = put_file(token, file_name, file_name)
-                # print(info)
                 assert ret['key'] == file_name
                 assert ret['hash'] == etag(file_name)
                 print ret
         elif os.path.isfile(upload_dir):
+            file_name = upload_dir
             token = self.mauth.upload_token(upload_bucket, file_name)
             ret, info = put_file(token, file_name, file_name)
             assert ret['key'] == file_name
@@ -54,25 +62,29 @@ class qiniu():
     def download(self, filename, output_dir):
         base_url = 'http://%s/%s' % (self.mdomain, filename)
         private_url = self.mauth.private_download_url(base_url)
+        print private_url
         if os.path.exists(output_dir):
             os.chdir(output_dir)
         else:
             os.makedirs(output_dir)
             os.chdir(output_dir)
         res = requests.get(private_url, stream=True)
+        assert res.status_code == 200
+        print res.status_code
         with closing(res) as r:
             accepts = 0
             chunk_size = 512
             with open(os.path.basename(filename), "wb") as code:
                 for chunk in r.iter_content(chunk_size=chunk_size):
                 #downlaod big data optimization；old mathed is  code.write(r.content)
-                    code.write(chunk)
-                    accepts += len(chunk)
-                    # print accepts, int(r.headers['Content-Length'])
-                    progress = round(float(accepts) / int(r.headers['Content-Length']), 4) * 100
-                    sys.stdout.write('\r' + 'Now downlaod ' + str(progress) + '%')
-                    sys.stdout.flush()
-        assert res.status_code == 200
+                    if chunk:  # filter out keep-alive new chunks
+                        code.write(chunk)
+                        accepts += len(chunk)
+                        # print accepts, int(r.headers['Content-Length'])
+                        progress = round(float(accepts) / int(r.headers['Content-Length']), 4) * 100
+                        sys.stdout.write('\r' + 'Now downlaod ' + str(progress) + '%')
+                        sys.stdout.flush()
+                print '\n'
 
     def delete(self, bucket_name, del_list):
         mbucket = BucketManager(self.mauth)
@@ -107,7 +119,7 @@ if __name__ == '__main__':
         server.upload(args.local_dir, args.remote_bucket)
         # print 'upload', args.local_dir, args.remote_bucket
     elif args.sub_command =='list':
-        server.upload(args.lbucket, args.prefix)
+        server.list(args.lbucket, args.prefix)
         # print 'list', args.lbucket, args.prefix
     elif args.sub_command == 'download':
         server.download(args.dfilename, args.out_dir)
