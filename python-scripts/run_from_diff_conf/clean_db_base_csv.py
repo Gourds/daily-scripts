@@ -3,7 +3,7 @@ import merge_conf
 import redis
 import csv
 
-db_auth = 'mUEiGo1Vy1bZeFhVsPN3VKnV'
+db_auth = 'xxx'
 
 def clean_old_db(del_obj,shard):
     del_ardb_host = del_obj[0].split(':')[0]
