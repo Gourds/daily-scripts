@@ -5,8 +5,8 @@ import re
 import os
 import yaml
 
-git_etcd_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/etcd-205/205/'
-git_fact_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/ansible-start-205/envs/vpc_yingzhuo/205/gamex/'
+git_etcd_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/etcd-207/207/'
+git_fact_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/ansible-start-207/playbooks/envs/207/gamex/'
 #Tips: find ./yingzhuo-jenkins-etcd-deploy/etcd-205/205/ -type f | egrep "[0-9]{4}" |xargs grep -A2 10.31.2.10 |egrep redis_db=
 
 
