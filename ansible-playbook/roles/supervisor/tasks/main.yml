@@ -1,3 +1,4 @@
+#see http://supervisord.org/installing.html#creating-a-configuration-file
 ---
 - name: use pip install supervisor
   pip: name=supervisor version="3.3.0" state=present
