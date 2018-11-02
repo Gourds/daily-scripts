@@ -1,0 +1,7 @@
+---
+
+- name: create download dir
+  file: path="{{ item }}" state=directory mode=0755
+  with_items:
+    - "{{ download_dir }}"
+    - "{{ conf_dir }}"

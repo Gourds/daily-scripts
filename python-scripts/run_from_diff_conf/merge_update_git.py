@@ -5,8 +5,8 @@ import re
 import os
 import yaml
 
-git_etcd_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/etcd-209/209/'
-git_fact_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/ansible-start-209/playbooks/envs/209/gamex/'
+git_etcd_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/etcd-205/205/'
+git_fact_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/ansible-start-205/envs/vpc_yingzhuo/205/gamex/'
 #Tips: find ./yingzhuo-jenkins-etcd-deploy/etcd-205/205/ -type f | egrep "[0-9]{4}" |xargs grep -A2 10.31.2.10 |egrep redis_db=
 
 
@@ -72,4 +72,5 @@ if __name__ == '__main__':
             del_shard.append(each_row[1])
             update_etcd(each_row[0],each_row[1],each_row[3],each_row[4],each_row[5],each_row[6])
             delete_etcd(each_row[1])
+        print del_shard 
         delete_fact(del_shard)

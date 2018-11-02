@@ -1,0 +1,12 @@
+---
+
+- name: Make sure required packages is ok
+  yum:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  with_items: "{{ depend_packages|default([]) }}"
+  become: true
+
+- name: Download zookeeper package
+  

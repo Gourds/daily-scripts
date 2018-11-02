@@ -1,0 +1,7 @@
+---
+
+kafka_packages:
+  - name: kafka
+    version: 2.12-1.0.0
+    url: "https://download.pingcap.org/kafka_2.12-1.0.0.tgz"
+    checksum: "sha256:d5b1d00752252d9c129e9284f26f8280e9899dd374167f257e29d5346eb544b3"
