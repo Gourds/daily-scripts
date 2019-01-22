@@ -1,0 +1,14 @@
+[program:zookeeper]
+environment=ZOO_LOG_DIR={{ deploy_dir }}/log
+directory={{ deploy_dir }}/zk/bin
+command=/bin/bash zkServer.sh start-foreground
+autorestart=unexpected
+exitcodes=0,2
+stopsignal=KILL
+stopwaitsecs=10
+stopasgroup=true
+stdout_logfile_maxbytes=100MB
+stdout_logfile_backups=10
+redirect_stderr=true
+stdout_logfile={{ deploy_dir }}/log/zookeeper.log
+stderr_logfile={{ deploy_dir }}/log/zookeeper.err

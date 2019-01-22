@@ -1,0 +1,7 @@
+---
+
+- include_tasks: online.yml
+#  when: not offline_deployment|default(false)
+
+# - include_tasks: offline.yml
+#   when: offline_deployment|default(false)

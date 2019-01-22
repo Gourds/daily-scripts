@@ -1,0 +1,27 @@
+- name: check supervisor exist or not
+  shell: which supervisord
+  register: check_result
+
+- name: config kafka with supervisor
+  template: src=supervisor_kafka.conf.j2  dest=/etc/supervisord/conf.d/supervisor_kafka.conf
+  when: check_result|succeeded
+
+- name: reload supervisor
+  supervisorctl: name="kafka" state=present
+  when: check_result|succeeded
+
+- name: update supervisor config
+  command: /usr/bin/supervisorctl update all
+  when: check_result|succeeded
+
+- name: start kafka with supervisor
+  supervisorctl: name="kafka" state=started
+  when: check_result|succeeded
+
+- name: start kafka with command line
+  shell: cd {{ deploy_dir }}/scripts && ./run_kafka.sh start
+  when: check_result|failed
+
+- name: wait for kafka up
+  wait_for: |
+    host={{ ansible_host }} port={{ kafka_port }} state=present

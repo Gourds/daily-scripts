@@ -1,0 +1,27 @@
+- name: check supervisor exist or not
+  shell: which supervisord
+  register: check_result
+
+- name: config zookeeper with supervisor
+  template: src=supervisor_zookeeper.conf.j2  dest=/etc/supervisord/conf.d/supervisor_zookeeper.conf
+  when: check_result|succeeded
+
+- name: reload supervisor
+  supervisorctl: name="zookeeper" state=present
+  when: check_result|succeeded
+
+- name: update supervisor config
+  command: /usr/bin/supervisorctl update all
+  when: check_result|succeeded
+
+- name: start zookeeper with supervisor
+  supervisorctl: name="zookeeper" state=started
+  when: check_result|succeeded
+
+- name: start zookeeper with command line
+  shell: cd {{ deploy_dir }}/scripts && ./run_zookeeper.sh start
+  when: check_result|failed
+
+- name: wait for zookeeper up
+  wait_for: |
+    host={{ ansible_host }} port={{ zk_client_port }} state=present
