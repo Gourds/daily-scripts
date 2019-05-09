@@ -1,78 +1,62 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
 import csv
-import re
 import os
-import yaml
+import re
+import commands
 
-git_etcd_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/etcd-205/205/'
-git_fact_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/ansible-start-205/envs/vpc_yingzhuo/205/gamex/'
-#git_etcd_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/etcd-209/209/'
-#git_fact_dir = '/Users/arvon/Documents/Tai_gitlab/yingzhuo-jenkins-etcd-deploy/ansible-start-209/playbooks/envs/209/gamex/'
-#Tips: find ./yingzhuo-jenkins-etcd-deploy/etcd-205/205/ -type f | egrep "[0-9]{4}" |xargs grep -A2 10.31.2.10 |egrep redis_db=
-
-
-def update_etcd(shard_idA,shard_idB,Res_redis_host,Res_redis_num,Res_rank_host,Res_rank_num):
-    shard_fileA = git_etcd_dir + '%s' % shard_idA
-    shard_fileB = git_etcd_dir + '%s' % shard_idB
-    fa = open(shard_fileA, 'r')
-    fa_content = fa.read()
-    merge_fa = re.search('merge_rel=.*',fa_content).group().split('=')[1]
-    if os.path.isfile(shard_fileB):
-        with open(shard_fileB,'r') as fb:
-            merge_fb =  re.search('merge_rel=.*',fb.read()).group().split('=')[1]
-        merge_ab = str(merge_fa) + ',' + str(merge_fb)
-        fa.seek(0, os.SEEK_SET)
-        new_data = ''
-        for each_line in fa.readlines():
+def update_etcd(merge_conf):
+    new_rel=[]
+    for each_shard in merge_conf['MergeShards'].split('-'):
+        with open(os.path.join(git_path,'etcd-config','prod',str(gid),each_shard),'rb') as f:
+            new_rel += re.search('merge_rel=.*', f.read()).group().split('=')[1].split(',')
+    with open(os.path.join(git_path,'etcd-config','prod',str(gid),merge_conf['MergeShards'].split('-')[0]),'rb') as f1:
+        new_data=''
+        for each_line in f1.readlines():
             if 'merge_rel=' in each_line:
-                each_line = re.sub('merge_rel=.*', 'merge_rel=%s' % merge_ab, each_line)
+                each_line = re.sub('merge_rel=.*', 'merge_rel=%s' % str.join(',',new_rel), each_line)
             elif re.match('redis=.*', each_line):
-                each_line = re.sub('redis=.*', 'redis=%s' % Res_redis_host, each_line)
+                each_line = re.sub('redis=.*', 'redis=%s' % merge_conf['TredisDB'], each_line)
             elif re.match('redis_db=.*', each_line):
-                each_line = re.sub('redis_db=\d+', 'redis_db=%s' % Res_redis_num, each_line)
+                each_line = re.sub('redis_db=\d+', 'redis_db=%s' % merge_conf['TredisNum'], each_line)
             elif re.search('rank_redis=', each_line):
-                each_line = re.sub('rank_redis=.*', 'rank_redis=%s' % Res_rank_host, each_line)
+                each_line = re.sub('rank_redis=.*', 'rank_redis=%s' % merge_conf['TrankDB'], each_line)
             elif re.search('rank_redis_db=', each_line):
-                each_line = re.sub('rank_redis_db=.*', 'rank_redis_db=%s' % Res_rank_num, each_line)
+                each_line = re.sub('rank_redis_db=.*', 'rank_redis_db=%s' % merge_conf['TrankNum'], each_line)
             new_data += each_line
-        fa.close()
-        with open(shard_fileA, 'w') as fe:
-            fe.write(new_data)
-    else:
-        print 'The file %s not exist, Please check' % shard_fileB
+    with open(os.path.join(git_path,'etcd-config','prod',str(gid),merge_conf['MergeShards'].split('-')[0]),'w') as f2:
+        f2.write(new_data)
 
-def delete_etcd(shard_id):
-    if os.path.isfile(git_etcd_dir + shard_id):
-        print 'delete %s' % shard_id
-        os.remove(git_etcd_dir + shard_id)
-    else:
-        print 'The file %s may be have been delete' % (git_etcd_dir + shard_id)
+def delete_etcd(merge_conf):
+    for del_shard in merge_conf['MergeShards'].split('-')[1:]:
+        del_file = os.path.join(git_path, 'etcd-config', 'prod', str(gid), del_shard)
+        if os.path.exists(del_file):
+            os.remove(del_file)
+            print 'Delete etcd config %s' % del_shard
+        else:
+            print 'The file %s not exist, Please check' % del_shard
 
-def delete_fact(shard_id_list):
-    for each_file in os.listdir(git_fact_dir):
-        fact_file = git_fact_dir + each_file
-        try:
-            with open(fact_file, 'r') as f:
-                content = yaml.load(f)
-                # print content['dev_gamex_conf']
-                for each_shard in shard_id_list:
-                    if each_shard in content['dev_gamex_conf']:
-                        del content['dev_gamex_conf'][each_shard]
-            # print yaml.dump(content)
-            with open(fact_file, 'w') as f2:
-                f2.write(yaml.dump(content))
-        except IOError:
-            return
+
+def update_facts(merge_conf):
+    if gid == 210:
+        facts_file = os.path.join(git_path, 'ansible-deploy-code', 'inventory','all_210_row')
+    elif gid == 211:
+        facts_file = os.path.join(git_path, 'ansible-deploy-code', 'inventory','all_211_row')
+    for del_shard in merge_conf['MergeShards'].split('-')[1:]:
+        print 'sed -i  "" "s/%s//g;s/||/|/g;s/|\'//g;s/=\'|/=\'/g" %s' % (del_shard,facts_file)
+        status, output = commands.getstatusoutput('sed -i "" "s/%s//g;s/||/|/g;s/|\'//g;s/=\'|/=\'/g" %s' % (del_shard,facts_file))
+    print status, output
+
 
 if __name__ == '__main__':
+    git_path = '/Users/arvon/Documents/Tai_gitlab/ops-oversea-ansible/'
+    gid = 210
     with open('merge_plan.csv', 'rb') as f1:
-        f1_csv = csv.reader(f1)
-        title = next(f1_csv)
-        del_shard=[]
-        for each_row in f1_csv:
-            del_shard.append(each_row[1])
-            update_etcd(each_row[0],each_row[1],each_row[3],each_row[4],each_row[5],each_row[6])
-            delete_etcd(each_row[1])
-        print del_shard 
-        delete_fact(del_shard)
+        reader = csv.reader(f1, delimiter=',')
+        fieldnames = next(reader)
+        reader = csv.DictReader(f1, fieldnames=fieldnames,delimiter=',')
+        for row in reader:
+            print row['MergeShards'],'now update etcd ...'
+            # update_etcd(row)
+            # delete_etcd(row)
+            print row['MergeShards'], 'now update facts ...'
+            update_facts(row)
