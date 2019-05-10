@@ -60,9 +60,9 @@ def run_merge_tools(out_conf_dir,merge_tools_path='./'):
             out_bytes = e.output
             code = e.returncode
         print os.path.splitext(each_conf)[0], 'have Done !'
-        write_log(os.path.splitext(each_conf)[0] + '.log', out_bytes)
+        write_log(os.path.splitext(each_conf)[0] + '.log', out_bytes, merge_tools_path)
 
-def write_log(log_name,log_content):
+def write_log(log_name,log_content, merge_tools_path):
     log_dir = os.path.join(merge_tools_path + 'log/' + time.strftime("%Y-%m-%d", time.localtime()))
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
