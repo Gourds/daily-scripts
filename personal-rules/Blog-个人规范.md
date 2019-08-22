@@ -76,7 +76,6 @@ Usage:`<!--more-->`
 - Shell
 - Svn
 - Tools
-- Tools
 - VPN
 - Web
 - Wiki
