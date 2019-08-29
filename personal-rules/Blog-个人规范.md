@@ -50,6 +50,7 @@ Usage:`<!--more-->`
 - Crontab
 - Date
 - Docker
+- Django
 - ELK
 - Etcd
 - FTP
@@ -63,6 +64,7 @@ Usage:`<!--more-->`
 - Iptables
 - Jenkins
 - Jira
+- Jinja2
 - Jumpserver
 - Kubernetes
 - Linux
