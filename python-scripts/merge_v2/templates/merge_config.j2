@@ -1,0 +1,37 @@
+[MergeCfg]
+
+etcd_endpoint = ["http://{{ meta.etcd_endpoint }}/"]
+# Etcd Root Path
+etcd_root = "{{ meta.etcd_root }}"
+output_path = "."
+
+Gid={{ meta.Gid }}
+
+#
+ARedis="{{ source_a.values()[0]['redis'] }}"
+ARedisDB={{ source_a.values()[0]['redis_db'] }}
+ARedisDBAuth="{{ meta.ARedisDBAuth }}"
+ARedisRank="{{ source_a.values()[0]['redis_rank'] }}"
+ARedisRankDB={{ source_a.values()[0]['redis_rank_db'] }}
+ARedisRankDBAuth="{{ meta.ARedisRankDBAuth }}"
+AShardId={{ source_a.keys()[0] }}
+
+BRedis="{{ source_b.values()[0]['redis'] }}"
+BRedisDB={{ source_b.values()[0]['redis_db'] }}
+BRedisDBAuth="{{ meta.BRedisDBAuth }}"
+BRedisRank="{{ source_b.values()[0]['redis_rank'] }}"
+BRedisRankDB={{ source_b.values()[0]['redis_rank_db'] }}
+BRedisRankDBAuth="{{ meta.BRedisRankDBAuth }}"
+BShardId={{ source_b.keys()[0] }}
+
+#
+ResRedis="{{ target.values()[0]['redis'] }}"
+ResRedisDB={{ target.values()[0]['redis_db'] }}
+ResRedisDBAuth="{{ meta.ResRedisDBAuth }}"
+ResRedisRank="{{ target.values()[0]['redis_rank'] }}"
+ResRedisRankDB={{ target.values()[0]['redis_rank_db'] }}
+ResRedisRankDBAuth="{{ meta.ResRedisRankDBAuth }}"
+ResShardId={{ target.keys()[0] }}
+
+DelAccountCorpLvl=30
+DelAccountNotLoginMin=10080

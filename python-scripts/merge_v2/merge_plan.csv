@@ -1,0 +1,2 @@
+ShardA,TredisDB,TredisNum,TrankDB,TrankNum,shardX
+1001,1.1.1.1:6379,1,1.1.1.1:6379,1,1002-1003
