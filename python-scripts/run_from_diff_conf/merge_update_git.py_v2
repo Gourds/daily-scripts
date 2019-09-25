@@ -52,22 +52,14 @@ def update_facts(merge_conf):
 
 if __name__ == '__main__':
     git_path = '/Users/arvon/Documents/Tai_gitlab/ops-oversea-ansible/'
-    gid = 211
-    with open('merge_plan.csv_211', 'rb') as f1:
+    gid = 210
+    with open('merge_plan.csv', 'rb') as f1:
         reader = csv.reader(f1, delimiter=',')
         fieldnames = next(reader)
         reader = csv.DictReader(f1, fieldnames=fieldnames,delimiter=',')
         for row in reader:
-            rst = {}
-            #print '%s-%s' % (row['Ashards'],row['Bshards'])
-            rst['MergeShards'] = '%s-%s' % (row['Ashards'],row['Bshards'])
-            rst['TredisDB'] = row['TredisDB']
-            rst['TredisNum'] = row['TredisNum']
-            rst['TrankDB'] = row['TrankDB']
-            rst['TrankNum'] = row['TrankNum']
-            print rst
-            print rst['MergeShards'],'now update etcd ...'
-            update_etcd(rst)
-            delete_etcd(rst)
-            print rst['MergeShards'], 'now update facts ...'
-            update_facts(rst)
+            print row['MergeShards'],'now update etcd ...'
+            # update_etcd(row)
+            # delete_etcd(row)
+            print row['MergeShards'], 'now update facts ...'
+            update_facts(row)
