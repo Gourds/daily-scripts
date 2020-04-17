@@ -43,6 +43,8 @@ def update_facts(merge_conf):
         facts_file = os.path.join(git_path, 'ansible-deploy-code', 'inventory','all_211_eu')
     elif gid == 212:
         facts_file = os.path.join(git_path, 'ansible-deploy-code', 'inventory','all_212_ya')
+    elif gid == 205:
+        facts_file = os.path.join(git_path, 'ansible-deploy-code', 'inventory','all_205_hmt')
     for del_shard in merge_conf['MergeShards'].split('-')[1:]:
         print 'sed -i  "" "s/%s//g;s/||/|/g;s/|\'//g;s/=\'|/=\'/g" %s' % (del_shard,facts_file)
         status, output = commands.getstatusoutput('sed -i "" "s/%s//g;s/||/|/g;s/|\'//g;s/=\'|/=\'/g" %s' % (del_shard,facts_file))
@@ -52,8 +54,8 @@ def update_facts(merge_conf):
 
 if __name__ == '__main__':
     git_path = '/Users/arvon/Documents/Tai_gitlab/ops-oversea-ansible/'
-    gid = 211
-    with open('merge_plan.csv_211', 'rb') as f1:
+    gid = 205
+    with open('merge_plan.csv_205', 'rb') as f1:
         reader = csv.reader(f1, delimiter=',')
         fieldnames = next(reader)
         reader = csv.DictReader(f1, fieldnames=fieldnames,delimiter=',')
