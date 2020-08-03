@@ -1,0 +1,89 @@
+# use own modle
+# ANSIBLE_LIBRARY: './your_path/library/
+# export ANSIBLE_LIBRARY=./your_path/library
+
+- hosts: '{{host_type}}'
+  remote_user: ec2-user
+  become: yes
+  become_user: root
+  gather_facts: True
+  # vars:
+  #   foo: bar
+  tasks:
+    - set_fact: assign_date_time={{ assign_date_default }}_{{ assign_time }}
+    - set_fact: log_path='/opt/supervisor/log'
+    - set_fact: bdc_save_path="/tmp/bdc_save_tmp/{{ assign_date_default }}/{{ assign_time }}"
+
+    - name: test module
+      grep2json: path={{ log_path }} key={{ item.dest }} regular={{ item.src }}_{{ assign_date_time|default('2022-02-02_02') }}
+      register: host_files
+      with_items:
+        - src: 134_[0-9]+_charge
+          dest: 134_charge
+        - src: 134_[0-9]+_event
+          dest: 134_event
+
+    - set_fact: file_type_tmp={{ host_files.results |map(attribute='stdout') | join(',') }}
+    - set_fact: file_type_list={{ file_type_tmp | flatten }}
+    - name: get file type uniq
+      shell: echo {{ item.type }}
+      register: type_add
+      with_items: "{{ file_type_list }}"
+
+    - set_fact: file_type={{ type_add.results| map(attribute='stdout_lines') |list | sum(start=[]) |unique }}
+
+    - name: create local save path
+      file: path={{ bdc_save_path }}/{{ item }}/  state=directory
+      with_items: "{{ file_type }}"
+      delegate_to: localhost
+      run_once: true
+      sudo: no
+
+    - name: copy file to Jenkins
+      fetch:
+        src: "{{ log_path }}/{{ item.file }}"
+        dest: "{{ bdc_save_path }}/{{ item.type }}/"
+        flat: yes
+      with_items: "{{ file_type_list }}"
+
+    - name: zip file in Jenkins
+      shell: zip -r {{ bdc_save_path }}/{{ item }}_{{ assign_date_time }}.zip {{ bdc_save_path }}/{{ item }}/
+      with_items: "{{ file_type }}"
+      delegate_to: localhost
+      run_once: true
+      sudo: no
+
+    - name: get zip file files_list
+      shell: ls {{ bdc_save_path }} | grep zip
+      register: zip_file_list
+      delegate_to: localhost
+      run_once: true
+      sudo: no
+
+    - name: upload to ftp
+      upload2ftp:
+        ftp_host: "{{ ftp_host }}"
+        ftp_port: "{{ ftp_port }}"
+        ftp_user: "{{ ftp_user }}"
+        ftp_pass: "{{ ftp_passwd }}"
+        ftp_local_file: "{{ bdc_save_path }}/{{ item }}"
+        ftp_remote_file: "{{ remote_ftp_path }}/{{ assign_date_default }}/"  #Must be dir
+      register: ftp_results
+      with_items: "{{ zip_file_list.stdout_lines }}"
+      delegate_to: localhost
+      retries: 3
+      delay: 10
+      run_once: true
+      sudo: no
+
+    - set_fact: ftp_rst={{ ftp_results.results |map(attribute='stdout') | join(',') }}
+    - debug: var=ftp_rst
+      delegate_to: localhost
+      run_once: true
+      sudo: no
+
+    - name: remove bdc_zip_dir
+      file: path={{ bdc_save_path|default('/tmp/safe_by_gourds') }} state=absent
+      delegate_to: localhost
+      run_once: true
+      sudo: no
