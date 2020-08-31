@@ -29,7 +29,7 @@ def ftpconnect(host, port, username, password):
     # ftp.set_debuglevel(2)         #打开调试级别2，显示详细信息
     ftp.encoding = 'utf-8'  # 解决中文编码问题，默认是latin-1
     try:
-        ftp.connect(host, port)  # 连接
+        ftp.connect(host, port, timeout=300)  # 连接
         ftp.login(username, password)  # 登录，如果匿名登录则用空串代替即可
         # print(ftp.getwelcome())  # 打印欢迎信息
     except(socket.error, socket.gaierror):  # ftp 连接错误
@@ -49,13 +49,27 @@ def uploadfile(ftp, remotepath, localpath):
         ftp.cwd(os.path.dirname(remotepath))
         # ftp.dir(os.path.dirname(remotepath))
     except:
-        ftp.mkd(os.path.dirname(remotepath))
+        # ftp.mkd(os.path.dirname(remotepath))
+        dirs = os.path.dirname(remotepath).split('/')
+        dirs.reverse()
+        base=''
+        while dirs:
+            base = os.path.join(base, dirs.pop())
+            try:
+                ftp.cwd(base)
+                ftp.cwd('/')
+            except:
+                ftp.mkd(base)
         ftp.cwd(os.path.dirname(remotepath))
-    res = ftp.storbinary('STOR ' + os.path.basename(localpath), fp, bufsize)  # 上传文件
-    if res.find('226') != -1:
-        return 'upload file complete:{}'.format(os.path.basename(localpath))
-    ftp.set_debuglevel(0)
-    fp.close()
+    try:
+        # ftp.set_pasv(False)
+        res = ftp.storbinary('STOR ' + os.path.basename(localpath), fp, bufsize)  # 上传文件
+        if res.find('226') != -1:
+            return 'upload file complete:{}'.format(os.path.basename(localpath))
+    finally:
+        ftp.set_debuglevel(0)
+        ftp.quit()
+        fp.close()
 
 
 
