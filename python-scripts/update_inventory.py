@@ -64,6 +64,7 @@ def replace_inventory_content(file,old_data,new_data):
             new_str = "|".join(new_data[i])
             rst = re.sub(r"(\S+)(\s+)(server=gamex)(\s+)"+"serverlist='" +old_str +"'", r"\1\2\3\4"+ "serverlist='" + new_str +"'", rst)
             rst = re.sub(r"(\S+)(\s+)(server=scene)(\s+)"+"serverlist='" +old_str +"'", r"\1\2\3\4"+ "serverlist='" + new_str +"'", rst)
+            #rst = rst.replace(str(group_name+"='" +old_str +"'"),str(group_name+"='"+new_str+"'"))
     fin = open(file, "wt")
     fin.write(rst)
     fin.close()
