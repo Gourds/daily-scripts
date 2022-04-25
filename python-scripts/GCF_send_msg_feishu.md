@@ -9,6 +9,18 @@ tags: [Python,GCP,GCF]
 
 <!--more-->
 
+### 日志过滤条件写法
+```yaml
+resource.type="gce_instance"
+protoPayload.methodName="compute.instances.automaticRestart" OR
+protoPayload.methodName="compute.instances.migrateOnHostMaintenance" OR
+protoPayload.methodName="v1.compute.instances.start" OR
+protoPayload.methodName="v1.compute.instances.stop" OR
+protoPayload.methodName="compute.instances.hostError" OR
+protoPayload.methodName="v1.compute.instances.delete"
+```
+
+### Google Cloud Function 脚本
 ```python
 #/bin/env python
 #-*- coding:utf-8 -*-
